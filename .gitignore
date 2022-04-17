@@ -1,4 +1,6 @@
 blog/resources/
+blog/themes/terminal/node_modules/
+blog/themes/terminal/package-lock.json
 .hugo_build.lock
 .env
 
