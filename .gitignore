@@ -1,0 +1,4 @@
+blog/resources/
+.hugo_build.lock
+.env
+

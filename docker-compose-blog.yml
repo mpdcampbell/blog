@@ -1,0 +1,41 @@
+#version: "3.6"
+
+############# 
+networks:
+  t2_proxy:
+    name: t2_proxy
+
+#############
+services:
+    blog:
+      container_name: blog
+      image: klakegg/hugo:ext-ubuntu
+      restart: unless-stopped
+      networks:
+        - t2_proxy
+      volumes:
+        - ${BLOG_DIR}:/src
+      command: server
+      environment:
+        - PUID
+        - PGID
+        - TZ
+      labels:
+      - "traefik.enable=true"
+      ## HTTP Routers
+      - "traefik.http.routers.blog-rtr.entrypoints=https"
+      - "traefik.http.routers.blog-rtr.rule=Host(`${BLOGDOMAIN}`) || Host(`www.${BLOGDOMAIN}`)"
+      - "traefik.http.routers.blog-rtr.tls=true"
+      - "traefik.http.routers.blog-rtr.tls.options=tls-opts@file"
+      # Middlewares
+      - "traefik.http.routers.blog-rtr.middlewares=blog-redirect@docker,blog-headers,chain-no-authelia@file"
+      - "traefik.http.middlewares.blog-redirect.redirectregex.regex=^https?://${BLOGDOMAIN}/(.*)"
+      - "traefik.http.middlewares.blog-redirect.redirectregex.replacement=https://www.${BLOGDOMAIN}/$${1}"
+      - "traefik.http.middlewares.blog-redirect.redirectregex.permanent=true"
+      - "traefik.http.middlewares.blog-headers.headers.accesscontrolalloworiginlist=https://${BLOGDOMAIN}"
+      - "traefik.http.middlewares.blog-headers.headers.allowedhosts=${BLOGDOMAIN},www.${BLOGDOMAIN}"
+      - "traefik.http.middlewares.blog-headers.headers.sslproxyheaders.X-Forwarded-Proto=https"
+      - "traefik.http.middlewares.blog-headers.headers.permissionsPolicy=ambient-light-sensor 'none'; camera 'none'; geolocation 'none'; microphone 'none'; payment 'none'; usb 'none'; interest-cohort 'none'"
+      ## HTTP Services
+      - "traefik.http.routers.blog-rtr.service=blog-svc"
+      - "traefik.http.services.blog-svc.loadbalancer.server.port=${BLOG_PORT}"
