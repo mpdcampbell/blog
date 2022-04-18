@@ -18,6 +18,9 @@ params:
   centerTheme: false
   autoCover: true
   readingTime: true
+  enableEmoji: true
+  enableInlineShortcodes: true
+
 
 languages:
   en:
