@@ -14,7 +14,7 @@ services:
       networks:
         - t2_proxy
       volumes:
-        - ${BLOG_DIR}:/src
+        - ${BLOGPROD_DIR}:/src
       command: server
       environment:
         - PUID

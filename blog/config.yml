@@ -43,6 +43,3 @@ languages:
       - identifier: about
         name: About
         url: /about
-      - identifier: showcase
-        name: Showcase
-        url: /showcase
