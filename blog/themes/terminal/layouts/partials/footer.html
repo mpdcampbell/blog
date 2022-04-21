@@ -1,13 +1,16 @@
 <footer class="footer">
   <div class="footer__inner">
+    <div class="githubLink">
+        <span><a href="https://github.com/mpdcampbell">{{ partial "inline-svg" "octocat"}}</a></span>
+      </div>
     {{ if $.Site.Copyright }}
       <div class="copyright copyright--user">
         <span>{{ $.Site.Copyright | safeHTML }}</span>
     {{ else }}
       <div class="copyright">
-        <span>© {{ now.Year }} Powered by <a href="http://gohugo.io">Hugo</a></span>
+        <span>© {{ now.Year }} Michael Campbell</span>
     {{ end }}
-        <span>:: Theme made by <a href="https://twitter.com/panr">panr</a></span>
+        <span> A <a href="http://gohugo.io">Hugo</a> site using <a href="https://github.com/panr/hugo-theme-terminal">Terminal</a></span>
       </div>
   </div>
 </footer>

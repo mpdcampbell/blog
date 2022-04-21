@@ -10,6 +10,7 @@
     margin: 0;
     width: 760px;
     max-width: 100%;
+    flex-direction: column;
 
     @media (--tablet) {
       flex-direction: column;
@@ -20,11 +21,19 @@
     color: inherit;
   }
 
-  .copyright {
+    .githubLink {
     display: flex;
     flex-direction: row;
     align-items: center;
-    font-size: 1rem;
+    font-size: 0.9rem;
+    color: var(--light-color-secondary);
+    }
+
+    .copyright {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 0.9rem;
     color: var(--light-color-secondary);
 
     &--user {
