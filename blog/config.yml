@@ -21,7 +21,6 @@ params:
   enableEmoji: true
   enableInlineShortcodes: true
 
-
 languages:
   en:
     languageName: English

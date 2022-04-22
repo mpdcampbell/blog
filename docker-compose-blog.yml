@@ -15,11 +15,12 @@ services:
         - t2_proxy
       volumes:
         - ${BLOGPROD_DIR}:/src
-      command: server
+      command: server --disableLiveReload
       environment:
         - PUID
         - PGID
         - TZ
+        - HUGO_ENV="production"
       labels:
       - "traefik.enable=true"
       ## HTTP Routers
@@ -35,6 +36,7 @@ services:
       - "traefik.http.middlewares.blog-headers.headers.accesscontrolalloworiginlist=https://${BLOGDOMAIN}"
       - "traefik.http.middlewares.blog-headers.headers.allowedhosts=${BLOGDOMAIN},www.${BLOGDOMAIN}"
       - "traefik.http.middlewares.blog-headers.headers.sslproxyheaders.X-Forwarded-Proto=https"
+      - "traefik.http.middlewares.blog-headers.headers.contentsecuritypolicy=default-src 'none'; connect-src 'self'; font-src 'self'; img-src 'self'; script-src 'self'; style-src 'self'"
       - "traefik.http.middlewares.blog-headers.headers.permissionsPolicy=ambient-light-sensor 'none'; camera 'none'; geolocation 'none'; microphone 'none'; payment 'none'; usb 'none'; interest-cohort 'none'"
       ## HTTP Services
       - "traefik.http.routers.blog-rtr.service=blog-svc"
