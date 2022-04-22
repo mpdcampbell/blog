@@ -3,7 +3,7 @@
 <meta name="description" content="{{ if .IsHome }}{{ $.Site.Params.Subtitle }}{{ else if .Description}}{{ .Description | plainify }}{{ else }}{{ .Summary | plainify }}{{ end }}" />
 <meta name="keywords" content="{{ with .Params.Keywords }}{{ delimit . ", " }}{{ else }}{{ $.Site.Params.Keywords }}{{ end }}" />
 <meta name="robots" content="noodp" />
-<link rel="canonical" href="{{ .Permalink }}" />
+<link rel="canonical" href="{{ .RelPermalink }}" />
 
 {{ template "_internal/google_analytics.html" . }}
 
@@ -42,7 +42,7 @@
 <meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}" />
 <meta property="og:title" content="{{ if .IsHome }}{{ $.Site.Title }}{{ else }}{{ .Title }}{{ end }}">
 <meta property="og:description" content="{{ if .IsHome }}{{ $.Site.Params.Subtitle }}{{ else if .Description}}{{ .Description | plainify }}{{ else }}{{ .Summary | plainify }}{{ end }}" />
-<meta property="og:url" content="{{ .Permalink }}" />
+<meta property="og:url" content="{{ .RelPermalink }}" />
 <meta property="og:site_name" content="{{ $.Site.Title }}" />
 {{ if and (not .IsHome) (isset .Params "cover") }}
   <meta property="og:image" content="{{ .Param "cover" | relURL }}">
