@@ -1,5 +1,5 @@
 +++
-title = "A minimal effort method to set up Content Security Policy (CSP)"
+title = "A low effort method to set up a Content Security Policy"
 date = "2022-04-27"
 description = "tl;dr: CSP is a HTTP header that makes your website more secure by only allowing resources to be loaded from specific sources. The Mozilla Laboratory browser extension for [Firefox](https://addons.mozilla.org/en-US/firefox/addon/laboratory-by-mozilla) or [Chrome](https://chrome.google.com/webstore/detail/laboratory/mjcamldajgnpgjcpacomkgfhccnibldg) makes it easy to setup a decent CSP."
 +++
@@ -30,7 +30,7 @@ Click record, browse around your site and the extension generates a complete CSP
 
 I've described the Laboratory extension as a quick way to get a "pretty good" CSP, and thats because with very little effort that's exactly what you can get. But that is underselling it somewhat as it is a very powerful tool that can be used to identify where resources load from and, with some user input, generate precise and exhaustive CSP headers.
 
-As a demo I visited www.usps.com, clicked record and browsed for 30 seconds, clicking everything in sight. The extension generated the following CSP. We can see using the laboratory browser extension they could quickly generate a CSP and still keep all their in-line tracking scripts. (Which does indeed seem to be how they are utilising CSP [currently](https://observatory.mozilla.org/analyze/www.usps.com)) 
+As a demo I visited www.usps.com, hit record and browsed for 30 seconds, clicking everything in sight. The extension generated the following CSP. We can see using the laboratory browser extension they could quickly generate a CSP and still keep all their in-line tracking scripts. (Which does indeed seem to be how they are utilising CSP [currently](https://observatory.mozilla.org/analyze/www.usps.com)) 
 
 ```http
 default-src 'none';
