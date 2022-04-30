@@ -4,9 +4,9 @@ The site is self-hosted, set up in a [Hugo docker container](https://github.com/
 
 It's a [Hugo](https://gohugo.io/) site using the [Terminal](https://github.com/panr/hugo-theme-terminal) theme with some minor CSS tweaks.
 
-
-
-
+<br />
+<br />
+<br />
 
 ## License
 
