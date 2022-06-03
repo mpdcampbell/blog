@@ -36,8 +36,57 @@ services:
       - "traefik.http.middlewares.blog-headers.headers.accesscontrolalloworiginlist=https://${BLOGDOMAIN}"
       - "traefik.http.middlewares.blog-headers.headers.allowedhosts=${BLOGDOMAIN},www.${BLOGDOMAIN}"
       - "traefik.http.middlewares.blog-headers.headers.sslproxyheaders.X-Forwarded-Proto=https"
-      - "traefik.http.middlewares.blog-headers.headers.contentsecuritypolicy=default-src 'none'; connect-src 'self'; font-src 'self'; img-src 'self'; script-src 'self'; style-src 'self'"
+      - "traefik.http.middlewares.blog-headers.headers.contentsecuritypolicy=default-src 'none'; connect-src 'self' https://umami.${BLOGDOMAIN}; font-src 'self'; img-src 'self'; script-src 'self' https://umami.${BLOGDOMAIN}/umami.js; style-src 'self'"
       - "traefik.http.middlewares.blog-headers.headers.permissionsPolicy=ambient-light-sensor 'none'; camera 'none'; geolocation 'none'; microphone 'none'; payment 'none'; usb 'none'; interest-cohort 'none'"
       ## HTTP Services
       - "traefik.http.routers.blog-rtr.service=blog-svc"
       - "traefik.http.services.blog-svc.loadbalancer.server.port=${BLOG_PORT}"
+
+    umamidb:
+      image: postgres:12-alpine
+      container_name: umamidb
+      restart: always
+      networks:
+        - t2_proxy
+      volumes:
+        - ${UMAMI_DB_DIR}/schema.postgresql.sql:/docker-entrypoint-initdb.d:ro
+        - ${UMAMI_DB_DIR}/data:/var/lib/postgresql/data
+      command: -p ${UMAMI_DB_PORT}
+      environment:
+        - POSTGRES_DB=${UMAMI_DB_NAME}
+        - POSTGRES_USER=${UMAMI_DB_USERNAME}
+        - POSTGRES_PASSWORD=${UMAMI_DB_PASSWORD}
+        - PUID
+        - PGID
+        - TZ
+
+    umami:
+      image: ghcr.io/mikecao/umami:postgresql-latest
+      container_name: umami
+      restart: unless-stopped
+      networks:
+        - t2_proxy
+      depends_on:
+        - umamidb
+      environment:
+        - DATABASE_URL=postgresql://${UMAMI_DB_USERNAME}:${UMAMI_DB_PASSWORD}@umamidb:${UMAMI_DB_PORT}/umami
+        - DATABASE_TYPE=postgresql
+        - HASH_SALT=${UMAMI_HASH_SALT}
+        - FORCE_SSL
+      labels:
+        - "traefik.enable=true"
+        ## HTTP Routers
+        - "traefik.http.routers.umami-rtr.entrypoints=https"
+        - "traefik.http.routers.umami-rtr.rule=Host(`umami.${BLOGDOMAIN}`)"
+        - "traefik.http.routers.umami-rtr.tls=true"
+        - "traefik.http.routers.umami-rtr.tls.options=tls-opts@file"
+        # Middlewares
+        - "traefik.http.routers.umami-rtr.middlewares=umami-headers,chain-no-authelia@file,middlewares-noindex-header@file"
+        - "traefik.http.middlewares.umami-headers.headers.accesscontrolalloworiginlist=https://${BLOGDOMAIN},https://www.${BLOGDOMAIN}"
+        - "traefik.http.middlewares.umami-headers.headers.allowedhosts=umami.${BLOGDOMAIN}"
+        - "traefik.http.middlewares.umami-headers.headers.accesscontrolallowheaders=Content-Type"
+        - "traefik.http.middlewares.umami-headers.headers.sslproxyheaders.X-Forwarded-Proto=https"
+        - "traefik.http.middlewares.umami-headers.headers.permissionsPolicy=ambient-light-sensor 'none'; camera 'none'; geolocation 'none'; microphone 'none'; payment 'none'; usb 'none'; interest-cohort 'none'"
+        ## HTTP Services
+        - "traefik.http.routers.umami-rtr.service=umami-svc"
+        - "traefik.http.services.umami-svc.loadbalancer.server.port=${UMAMI_PORT}" 
