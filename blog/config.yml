@@ -19,7 +19,6 @@ languages:
   en:
     languageName: English
     title: codeslikeaduck
-    subtitle: Your site subtitle
     keywords: ''
     menuMore: Show more
     readMore: Read more
