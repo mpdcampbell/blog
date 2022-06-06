@@ -82,3 +82,13 @@
     margin: 0;
   }
 }
+
+.collapsable-code .code-toolbar {
+ border:1px solid hsla(0,0%,100%,.1);
+ margin:0px 0;
+ padding-top: 0px;
+ padding-right: 20px;
+ padding-bottom: 20px;
+ padding-left: 20px;
+ position: relative;
+}

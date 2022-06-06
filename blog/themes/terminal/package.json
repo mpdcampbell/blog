@@ -55,6 +55,7 @@
     "webpack-cli": "^4.5.0"
   },
   "dependencies": {
+    "install": "^0.13.0",
     "yarn": "^1.22.18"
   }
 }
