@@ -22,8 +22,17 @@
 .post {
   width: 100%;
   text-align: left;
-  margin: 20px auto;
-  padding: 20px 0;
+  margin: 0px auto;
+    margin-top: 0px;
+    margin-right: auto;
+    margin-bottom: 0px;
+    margin-left: auto;
+  padding: 10px 0;
+    padding-top: 0px;
+    padding-right: 0px;
+    padding-bottom: 10px;
+    padding-left: 0px;
+  text-align: left;
 
   @media (--tablet) {
     max-width: 660px;
