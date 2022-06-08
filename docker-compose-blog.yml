@@ -49,7 +49,7 @@ services:
       networks:
         - t2_proxy
       volumes:
-        - ${UMAMI_DB_DIR}/schema.postgresql.sql:/docker-entrypoint-initdb.d:ro
+        - ${UMAMI_DB_DIR}/schema:/docker-entrypoint-initdb.d:ro
         - ${UMAMI_DB_DIR}/data:/var/lib/postgresql/data
       command: -p ${UMAMI_DB_PORT}
       environment:
