@@ -86,6 +86,7 @@ services:
         - "traefik.http.middlewares.umami-headers.headers.allowedhosts=umami.${BLOGDOMAIN}"
         - "traefik.http.middlewares.umami-headers.headers.accesscontrolallowheaders=Content-Type"
         - "traefik.http.middlewares.umami-headers.headers.sslproxyheaders.X-Forwarded-Proto=https"
+        - "traefik.http.middlewares.umami-headers.headers.contentsecuritypolicy=default-src 'none'; connect-src 'self'; font-src 'self'; img-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'"
         - "traefik.http.middlewares.umami-headers.headers.permissionsPolicy=ambient-light-sensor 'none'; camera 'none'; geolocation 'none'; microphone 'none'; payment 'none'; usb 'none'; interest-cohort 'none'"
         ## HTTP Services
         - "traefik.http.routers.umami-rtr.service=umami-svc"
