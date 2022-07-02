@@ -32,7 +32,7 @@ I've described the Laboratory extension as a quick way to get a "pretty good" CS
 
 As a demo I visited www.usps.com, hit record and browsed for 30 seconds, clicking everything in sight. The extension generated the following CSP. We can see using the laboratory browser extension they could quickly generate a CSP and still keep all their in-line tracking scripts. (Which does indeed seem to be how they are utilising CSP [currently](https://observatory.mozilla.org/analyze/www.usps.com)) 
 
-```http
+{{< code language="Headers" title="Generated CSP for www.usps.com" expand="Show" collapse="Hide" isCollapsed="false" >}}
 default-src 'none';
 connect-src https://bat.bing.com/actionp/0 https://ct.pinterest.com/user/ https://tr.snapchat.com/collector/is_enabled https://tr.snapchat.com/init https://www.facebook.com/tr/;
 font-src 'self';
@@ -41,4 +41,4 @@ frame-src https://3976941.fls.doubleclick.net https://bid.g.doubleclick.net http
 img-src 'self' https://alb.reddit.com https://analytics.twitter.com https://bat.bing.com https://ct.pinterest.com https://r.turn.com https://t.co https://trkn.us https://www.facebook.com https://www.google.com;
 script-src 'self' 'unsafe-eval' 'unsafe-inline' https://bat.bing.com/bat.js https://bat.bing.com/p/action/21006064.js https://connect.facebook.net/en_US/fbevents.js https://connect.facebook.net/signals/config/533374513433337 https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js https://fast.fonts.net/t/trackingCode.js https://googleads.g.doubleclick.net/pagead/viewthroughconversion/978081151/ https://resources.digital-cloud-gov.medallia.com/wdcgov/2/onsite/embed.js https://resources.digital-cloud-gov.medallia.com/wdcgov/2/onsite/generic1650488365319.js https://s.pinimg.com/ct/core.js https://s.pinimg.com/ct/lib/main.32155010.js https://sc-static.net/scevent.min.js https://static.ads-twitter.com/uwt.js https://www.google-analytics.com/analytics.js https://www.google.com/pagead/conversion_async.js https://www.googleoptimize.com/optimize.js https://www.googletagmanager.com/gtag/js https://www.googletagmanager.com/gtm.js https://www.redditstatic.com/ads/pixel.js;
 style-src 'self' 'unsafe-inline' https://fast.fonts.net/t/
-```
+{{< /code >}}
