@@ -8,7 +8,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noindex, nofollow"/>
-    <title>{{ message }}</title>
+    <title>codeslikeaduck - Page not found</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito+Sans" rel="stylesheet">
@@ -16,20 +16,20 @@
         /** Codepen: https://codepen.io/kdbkapsere/pen/oNXLbqQ */
 
         :root {
-            --color-bg-primary: #fff;
-            --color-text-primary: #0e0620;
+            --color-bg-primary: #1f212b;
+            --color-text-primary: #88c0d0;
 
-            --color-ui-bg-primary: #0e0620;
-            --color-ui-bg-inverted: #fff;
+            --color-ui-bg-primary: #88c0d0;
+            --color-ui-bg-inverted: #1f212b;
         }
 
         @media (prefers-color-scheme: dark) {
             :root {
-                --color-bg-primary: #212121;
-                --color-text-primary: #fafafa;
+                --color-bg-primary: #1f212b;
+                --color-text-primary: #88c0d0;
 
-                --color-ui-bg-primary: #fafafa;
-                --color-ui-bg-inverted: #212121;
+                --color-ui-bg-primary: #88c0d0;
+                --color-ui-bg-inverted: #1f212b;
             }
         }
 
@@ -55,12 +55,13 @@
             width: 100%;
             max-width: 1140px;
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
         }
 
         .picture, .content {
             box-sizing: border-box;
             width: 50%;
+	    align-self: center;
         }
 
         .content {
@@ -81,13 +82,14 @@
 
         h1 {
             font-size: 150px;
-            margin: 15px 0;
+            margin: 0px 0px;
             font-weight: bold;
         }
 
         h2 {
             font-size: 32px;
             font-weight: bold;
+            margin: 0px 0px
         }
 
         p {
@@ -109,7 +111,7 @@
             }
 
             .picture svg {
-                max-width: 60%;
+                max-width: 90%;
             }
         }
     </style>
@@ -319,6 +321,7 @@
         <h2><span data-l10n>UH OH</span>! <span data-l10n>{{ message }}</span></h2>
         <p data-l10n>{{ description }}</p>
     </div>
+
 </main>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"
@@ -326,6 +329,7 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <script>
+
     /** @var {object} gsap is a library for building high-performance animations */
 
     if (typeof gsap === 'object') {
