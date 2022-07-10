@@ -37,6 +37,7 @@ services:
       - "traefik.http.middlewares.blog-headers.headers.allowedhosts=${BLOGDOMAIN},www.${BLOGDOMAIN}"
       - "traefik.http.middlewares.blog-headers.headers.sslproxyheaders.X-Forwarded-Proto=https"
       - "traefik.http.middlewares.blog-headers.headers.contentsecuritypolicy=default-src 'none'; connect-src 'self' https://umami.${BLOGDOMAIN}; font-src 'self'; img-src 'self'; script-src 'self' https://umami.${BLOGDOMAIN}/umami.js; style-src 'self'"
+      - "traefik.http.middlewares.blog-headers.headers.contentsecuritypolicy=default-src 'none'; connect-src 'self' https://umami.${BLOGDOMAIN}; font-src 'self' https://fonts.gstatic.com; img-src 'self'; script-src 'self' 'sha256-5BVM9B5Dy9frPcDpLnaQOeKjPE+7NLNSI5+170llxNU=' https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js https://umami.${BLOGDOMAIN}/umami.js; style-src 'self' 'sha256-URsfFweIW8RxEWVIGboHvuOr48keLrxzQBgEBCUkNWk=' https://fonts.googleapis.com"
       - "traefik.http.middlewares.blog-headers.headers.permissionsPolicy=ambient-light-sensor 'none'; camera 'none'; geolocation 'none'; microphone 'none'; payment 'none'; usb 'none'; interest-cohort 'none'"
       ## HTTP Services
       - "traefik.http.routers.blog-rtr.service=blog-svc"
@@ -67,7 +68,7 @@ services:
         - "traefik.http.middlewares.errorpage-headers.headers.accesscontrolalloworiginlist=https://${BLOGDOMAIN}"
         - "traefik.http.middlewares.errorpage-headers.headers.allowedhosts=error.${BLOGDOMAIN}"
         - "traefik.http.middlewares.errorpage-headers.headers.sslproxyheaders.X-Forwarded-Proto=https"
-        - "traefik.http.middlewares.errorpage-headers.headers.contentsecuritypolicy=default-src 'none'; connect-src 'self'; font-src 'self'; img-src 'self'; script-src 'self'; style-src 'self'"
+        - "traefik.http.middlewares.errorpage-headers.headers.contentsecuritypolicy=default-src 'none'; connect-src 'self'; font-src 'self' https://fonts.gstatic.com; img-src 'self'; script-src 'self' 'sha256-5BVM9B5Dy9frPcDpLnaQOeKjPE+7NLNSI5+170llxNU=' https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js; style-src 'self' 'sha256-URsfFweIW8RxEWVIGboHvuOr48keLrxzQBgEBCUkNWk=' https://fonts.googleapis.com"
         - "traefik.http.middlewares.errorpage-headers.headers.permissionsPolicy=ambient-light-sensor 'none'; camera 'none'; geolocation 'none'; microphone 'none'; payment 'none'; usb 'none'; interest-cohort 'none'"
       # Errorpage-redirect middleware
         - "traefik.http.middlewares.errorpage-redirect.errors.status=400-599"
