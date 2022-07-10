@@ -42,6 +42,37 @@ services:
       - "traefik.http.routers.blog-rtr.service=blog-svc"
       - "traefik.http.services.blog-svc.loadbalancer.server.port=${BLOG_PORT}"
 
+    errorPage:
+      container_name: errorPage
+      image: nginx
+      restart: always
+      networks:
+        - t2_proxy
+      volumes:
+        - ${ERRORPAGE_DIR}/error-pages:/usr/share/nginx/html
+        - ${ERRORPAGE_DIR}/:/etc/nginx/conf.d/
+      environment:
+        - PUID
+        - PGID
+        - TZ
+      labels:
+        - "traefik.enable=true"
+      ## HTTP Routers
+        - "traefik.http.routers.errorpage-rtr.entrypoints=https"
+        - "traefik.http.routers.errorpage-rtr.rule=Host(`error.${BLOGDOMAIN}`)"
+        - "traefik.http.routers.errorpage-rtr.tls=true"
+        - "traefik.http.routers.errorpage-rtr.tls.options=tls-opts@file"
+      # Middlewares
+        - "traefik.http.routers.errorpage-rtr.middlewares=errorpage-headers,chain-no-authelia@file,middlewares-noindex-header@file"
+        - "traefik.http.middlewares.errorpage-headers.headers.accesscontrolalloworiginlist=https://${BLOGDOMAIN}"
+        - "traefik.http.middlewares.errorpage-headers.headers.allowedhosts=error.${BLOGDOMAIN}"
+        - "traefik.http.middlewares.errorpage-headers.headers.sslproxyheaders.X-Forwarded-Proto=https"
+        - "traefik.http.middlewares.errorpage-headers.headers.contentsecuritypolicy=default-src 'none'; connect-src 'self'; font-src 'self'; img-src 'self'; script-src 'self'; style-src 'self'"
+        - "traefik.http.middlewares.errorpage-headers.headers.permissionsPolicy=ambient-light-sensor 'none'; camera 'none'; geolocation 'none'; microphone 'none'; payment 'none'; usb 'none'; interest-cohort 'none'"
+      ## HTTP Services
+        - "traefik.http.routers.errorpage-rtr.service=errorpage-svc"
+        - "traefik.http.services.errorpage-svc.loadbalancer.server.port=${ERRORPAGE_PORT}"
+
     umamidb:
       image: postgres:12-alpine
       container_name: umamidb
