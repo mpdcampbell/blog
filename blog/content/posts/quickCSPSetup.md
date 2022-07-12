@@ -6,7 +6,7 @@ description = "tl;dr: CSP is a HTTP header that makes your website more secure b
 
 > tl;dr: CSP is a HTTP header that makes your website more secure by only allowing resources to be loaded from specific sources. The Mozilla Laboratory browser extension for [Firefox](https://addons.mozilla.org/en-US/firefox/addon/laboratory-by-mozilla) or [Chrome](https://chrome.google.com/webstore/detail/laboratory/mjcamldajgnpgjcpacomkgfhccnibldg) makes it easy to setup a decent CSP. 
 
-- For a full technical description of what a content security policy (CSP) is checkout the [Mozilla Dev webdocs](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP).
+- For a full technical description of what a content security policy (CSP) is checkout the [Mozilla Dev docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP).
 - For a quick qualitative description checkout this [short summary](https://www.digitalocean.com/community/tutorials/what-is-a-content-security-policy) by Digital Ocean.
 
 ## The CSP Problem
@@ -28,7 +28,7 @@ The quick solution is the Laboratory browser extension for [Firefox](https://add
 
 Click record, browse around your site and the extension generates a complete CSP header. You can then click enforce to test the generated policy in your browser and see what, if anything, has broken. Record, enforce, tweak, repeat to achieve your desired level of CSP precision.
 
-I've described the Laboratory extension as a quick way to get a "pretty good" CSP, and thats because with very little effort that's exactly what you can get. But that is underselling it somewhat as it is a very powerful tool that can be used to identify where resources load from and, with some user input, generate precise and exhaustive CSP headers.
+I've described the Laboratory extension as a quick way to get a "pretty good" CSP, and that's because with very little effort that's exactly what you can get. But that is underselling it somewhat as it is a very powerful tool that can be used to identify where resources load from and, with some user input, generate precise and exhaustive CSP headers.
 
 As a demo I visited www.usps.com, hit record and browsed for 30 seconds, clicking everything in sight. The extension generated the following CSP. We can see using the laboratory browser extension they could quickly generate a CSP and still keep all their in-line tracking scripts. (Which does indeed seem to be how they are utilising CSP [currently](https://observatory.mozilla.org/analyze/www.usps.com)) 
 
