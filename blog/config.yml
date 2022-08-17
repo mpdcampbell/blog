@@ -19,7 +19,7 @@ languages:
   en:
     languageName: English
     title: codeslikeaduck
-    keywords: ''
+    keywords: "traefik, selfhost, docker, how to"
     menuMore: Show more
     readMore: Read more
     readOtherPosts: Read other posts
