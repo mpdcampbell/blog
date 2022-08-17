@@ -18,7 +18,7 @@ tsParticles.load("leftDucks", {
         color: "#fff"
       },
       image: [{
-	src: "https://error.codeslikeaduck.com/images/leftCodeDuck.png",
+	src: "https://error.codeslikeaduck.com/duck/images/leftCodeDuck.png",
         width: 64,
         height: 64
       }],
@@ -70,7 +70,7 @@ tsParticles.load("rightDucks", {
         color: "#fff"
       },
       image: [{
-	src: "https://error.codeslikeaduck.com/images/rightCodeDuck.png",
+	src: "https://error.codeslikeaduck.com/duck/images/rightCodeDuck.png",
         width: 64,
         height: 64
       }],
