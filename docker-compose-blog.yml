@@ -36,7 +36,7 @@ services:
       - "traefik.http.middlewares.blog-headers.headers.accesscontrolalloworiginlist=https://${BLOGDOMAIN}"
       - "traefik.http.middlewares.blog-headers.headers.allowedhosts=${BLOGDOMAIN},www.${BLOGDOMAIN}"
       - "traefik.http.middlewares.blog-headers.headers.sslproxyheaders.X-Forwarded-Proto=https"
-      - "traefik.http.middlewares.blog-headers.headers.contentsecuritypolicy=default-src 'none'; connect-src 'self' https://umami.${BLOGDOMAIN}; font-src 'self' https://fonts.gstatic.com; img-src 'self'; script-src 'self' 'sha256-5BVM9B5Dy9frPcDpLnaQOeKjPE+7NLNSI5+170llxNU=' https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js https://umami.${BLOGDOMAIN}/umami.js; style-src 'self' 'sha256-URsfFweIW8RxEWVIGboHvuOr48keLrxzQBgEBCUkNWk=' https://fonts.googleapis.com"
+      - "traefik.http.middlewares.blog-headers.headers.contentsecuritypolicy=default-src 'none'; connect-src 'self' https://umami.${BLOGDOMAIN}; font-src 'self' https://fonts.gstatic.com; img-src 'self' https://error.${BLOGDOMAIN}; script-src 'self' https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js 'sha256-5BVM9B5Dy9frPcDpLnaQOeKjPE+7NLNSI5+170llxNU=' https://cdnjs.cloudflare.com/ajax/libs/tsparticles/1.18.11/tsparticles.min.js 8.11/tsparticles.min.js 'sha256-oVBds4Ar/clFd5S7ZMSZ/+W4hSSt44iAxpfAm6hdkvc=' 'sha256-3XanFXBcersCYJsdffADxj8YsQPMTw5wVoHzTczhEbs=' 'sha256-GKMtOHLcf6nBiKeEY7c1O1ldo8LLqtp6sDnLahQLLrY=' https://umami.${BLOGDOMAIN}/umami.js https://error.codeslikeaduck.com/duck/js/app.js; style-src 'self' 'sha256-URsfFweIW8RxEWVIGboHvuOr48keLrxzQBgEBCUkNWk=' https://error.codeslikeaduck.com/duck/css/app.css https://fonts.googleapis.com"
       - "traefik.http.middlewares.blog-headers.headers.permissionsPolicy=ambient-light-sensor 'none'; camera 'none'; geolocation 'none'; microphone 'none'; payment 'none'; usb 'none'; interest-cohort 'none'"
       ## HTTP Services
       - "traefik.http.routers.blog-rtr.service=blog-svc"
@@ -64,15 +64,15 @@ services:
         - "traefik.http.routers.errorpage-rtr.tls.options=tls-opts@file"
       # Middlewares
         - "traefik.http.routers.errorpage-rtr.middlewares=errorpage-headers,chain-no-authelia@file,middlewares-noindex-header@file"
-        - "traefik.http.middlewares.errorpage-headers.headers.accesscontrolalloworiginlist=https://${BLOGDOMAIN}"
+        - "traefik.http.middlewares.errorpage-headers.headers.accesscontrolalloworiginlist=https://${BLOGDOMAIN}, https://www.${BLOGDOMAIN}"
         - "traefik.http.middlewares.errorpage-headers.headers.allowedhosts=error.${BLOGDOMAIN}"
         - "traefik.http.middlewares.errorpage-headers.headers.sslproxyheaders.X-Forwarded-Proto=https"
-        - "traefik.http.middlewares.errorpage-headers.headers.contentsecuritypolicy=default-src 'none'; connect-src 'self'; font-src 'self' https://fonts.gstatic.com; img-src 'self'; script-src 'self' 'sha256-5BVM9B5Dy9frPcDpLnaQOeKjPE+7NLNSI5+170llxNU=' https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js; style-src 'self' 'sha256-URsfFweIW8RxEWVIGboHvuOr48keLrxzQBgEBCUkNWk=' https://fonts.googleapis.com"
+        - "traefik.http.middlewares.errorpage-headers.headers.contentsecuritypolicy=default-src 'none'; connect-src 'self'; font-src 'self' https://fonts.gstatic.com; img-src 'self'; script-src 'self' https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js 'sha256-5BVM9B5Dy9frPcDpLnaQOeKjPE+7NLNSI5+170llxNU=' https://cdnjs.cloudflare.com/ajax/libs/tsparticles/1.18.11/tsparticles.min.js 'sha256-oVBds4Ar/clFd5S7ZMSZ/+W4hSSt44iAxpfAm6hdkvc=' 'sha256-3XanFXBcersCYJsdffADxj8YsQPMTw5wVoHzTczhEbs='; style-src 'self' 'sha256-URsfFweIW8RxEWVIGboHvuOr48keLrxzQBgEBCUkNWk=' https://fonts.googleapis.com"
         - "traefik.http.middlewares.errorpage-headers.headers.permissionsPolicy=ambient-light-sensor 'none'; camera 'none'; geolocation 'none'; microphone 'none'; payment 'none'; usb 'none'; interest-cohort 'none'"
       # Errorpage-redirect middleware
         - "traefik.http.middlewares.errorpage-redirect.errors.status=400-599"
         - "traefik.http.middlewares.errorpage-redirect.errors.service=errorpage-svc"
-        - "traefik.http.middlewares.errorpage-redirect.errors.query=/{status}.html"
+        - "traefik.http.middlewares.errorpage-redirect.errors.query=/404.html" #/{status}.html"
       ## HTTP Services
         - "traefik.http.routers.errorpage-rtr.service=errorpage-svc"
         - "traefik.http.services.errorpage-svc.loadbalancer.server.port=${ERRORPAGE_PORT}"
@@ -121,7 +121,7 @@ services:
         - "traefik.http.middlewares.umami-headers.headers.allowedhosts=umami.${BLOGDOMAIN}"
         - "traefik.http.middlewares.umami-headers.headers.accesscontrolallowheaders=Content-Type"
         - "traefik.http.middlewares.umami-headers.headers.sslproxyheaders.X-Forwarded-Proto=https"
-        - "traefik.http.middlewares.umami-headers.headers.contentsecuritypolicy=default-src 'none'; connect-src 'self'; font-src 'self'; img-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'"
+        - "traefik.http.middlewares.umami-headers.headers.contentsecuritypolicy=default-src 'none'; connect-src 'self'; font-src 'self'; img-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; manifest-src 'self'"
         - "traefik.http.middlewares.umami-headers.headers.permissionsPolicy=ambient-light-sensor 'none'; camera 'none'; geolocation 'none'; microphone 'none'; payment 'none'; usb 'none'; interest-cohort 'none'"
         ## HTTP Services
         - "traefik.http.routers.umami-rtr.service=umami-svc"
