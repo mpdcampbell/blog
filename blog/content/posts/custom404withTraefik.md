@@ -190,7 +190,7 @@ _Expose the error service on a subdomain so you can replace relative paths with 
 
 ---
 
----
+
 You already have a service set up to host the custom error page, with a few more lines of config you can expose this under a subdomain (e.g. [error.codeslikeaduck.com](https://error.codeslikeaduck.com)). This process would be equivalent to the steps you went through to expose your original service, but for reference you can see the docker-compose.yml for my setup [here](https://github.com/mpdcampbell/blog/blob/master/docker-compose-blog.yml). As the error subdomain exists only to host assets, you can add the below header middleware to prevent indexing by search engines.
 
 {{< code language="yml" title="No index header middleware" expand="Show" collapse="Hide" isCollapsed="false" >}}
