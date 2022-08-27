@@ -63,7 +63,7 @@ mkdir -p errorPage/html
 touch errorPage/default.conf
 {{< /code >}}
 
-This Nginx server will be basic, it only needs to listen for incoming requests and host the one webpage "custom.html". Open default.conf in your [editor of choice](https://xkcd.com/1172/) and enter the below.
+This Nginx server will be basic, it only needs to listen for incoming requests and host the one webpage "custom.html". Open default.conf in your [editor of choice](https://xkcd.com/378/) and enter the below.
 
 {{< code language=".conf" title="default.conf" expand="Show" collapse="Hide" isCollapsed="false" >}}
 server {
@@ -85,7 +85,7 @@ echo "The errors middleware is working" > errorPage/html/custom.html
 
 Now the directory is ready, we can add the Nginx container.
 
-Below is the minimum config to deploy the Nginx container. A more complete config with added security middlewares is shown [here](https://github.com/mpdcampbell/blog/blob/master/docker-compose-blog.yml). If you don't bother with a [CSP](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP) for your site, [you really should](https://blog.139381512.xyz/posts/quickcspsetup/).
+Below is the minimum config to deploy the Nginx container. A more complete config with added security middlewares is shown [here](https://github.com/mpdcampbell/blog/blob/master/docker-compose-blog.yml). If you don't bother with a [CSP](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP) for your site, [you really should](https://www.codeslikeaduck.com/posts/quickcspsetup/).
 
 {{< code language="yml" title="Nginx docker-compose.yml [Bare bones set up]" expand="Show" collapse="Hide" isCollapsed="false" >}}
 errorPage:
@@ -175,13 +175,13 @@ If your error page is self contained within a single html file, for example this
 
 #### Why be careful?
 
-This is easiest explained with an example. Following the flow diagram above, if a user requests a page that doesn't exist, https://codeslikeaduck.com/page, traefik routes the request to the service hosting codeslikeaduck.com, the service responds with status 404, the errors middleware will  then intercept and query the errorPage service, which will successfully return custom.html. The users browser then runs through custom.html until it reaches the line:
+This is easiest explained with an example. Following the flow diagram above, if a user requests a page that doesn't exist, https://codeslikeaduck.com/notexist, Traefik routes the request to the service hosting codeslikeaduck.com, the service responds with status 404, the errors middleware will  then intercept and query the errorPage service, which will successfully return custom.html. The users browser then runs through custom.html until it reaches the line:
 
 ```<link rel="stylesheet" href="css/app.css" type="text/css"/>"``` 
 
 The browser will then request codeslikeaduck.com/css/app.css, which will get routed by Traefik to the service hosting codeslikeaduck.com, which will respond 404, which will get intercepted by the errors middleware and the server will respond with custom.html. This wont match the expected content-type and the browser will return an error.
 
-You could solve this by locally storing the css, js and other assets for the error page in the original service volume. But that seems messy and confusing as the html would be in a seperate service volume. You could also use [regex and path rules](https://doc.traefik.io/traefik/routing/routers/) to be more precise about what queries are routed where, but that feels overly complicated and could lead to accidental routing of valid asset queries away from the original service. Instead of those options, I recommend exposing the assets to the web so you can replace all relative paths with a URL.  
+You could solve this by locally storing the css, js and other assets for the error page in the original service volume. But that seems messy and confusing as the html would be in a separate service volume. You could also use [regex and path rules](https://doc.traefik.io/traefik/routing/routers/) to be more precise about what queries are routed where, but that feels overly complicated and could lead to accidental routing of valid asset queries away from the original service. Instead of those options, I recommend exposing the assets to the web so you can replace all relative paths with a URL.  
 
 
 ---
