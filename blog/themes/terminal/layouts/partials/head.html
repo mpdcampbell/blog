@@ -3,7 +3,7 @@
 <meta name="description" content="{{ if .IsHome }}{{ $.Site.Params.Subtitle }}{{ else if .Description}}{{ .Description | plainify }}{{ else }}{{ .Summary | plainify }}{{ end }}" />
 <meta name="keywords" content="{{ with .Params.Keywords }}{{ delimit . ", " }}{{ else }}{{ $.Site.Params.Keywords }}{{ end }}" />
 <meta name="robots" content="noodp" />
-<link rel="canonical" href="{{ .RelPermalink }}" />
+<link rel="canonical" href="https://codeslikeaduck.com{{ .RelPermalink }}" />
 
 {{ template "_internal/google_analytics.html" . }}
 

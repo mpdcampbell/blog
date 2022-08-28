@@ -1,4 +1,4 @@
-baseUrl: /
+baseUrl: "https://codeslikeaduck.com"
 languageCode: en-us
 theme: terminal
 paginate: 5
@@ -19,7 +19,8 @@ languages:
   en:
     languageName: English
     title: codeslikeaduck
-    keywords: "traefik, selfhost, docker, how to"
+    subtitle: "A series of how to articles documenting what I learn tinkering with my self-host server."
+    keywords: "traefik, self-hosting, docker, how to"
     menuMore: Show more
     readMore: Read more
     readOtherPosts: Read other posts
