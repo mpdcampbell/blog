@@ -80,7 +80,7 @@ volumes:
 Quick explainer through each variable that needs changed.
  - **${UMAMI_DB_NAME} / USERNAME / PASSWORD** are the credentials for the database. These also go in the DATABASE_URL so that the Umami application can access the database.
  - **${UMAMI_DB_DIR}** is the path to the umami/umamidb folder created in the last code snippet. The change to volume path tidies it up.
- - **${UMAMI_HASH_SALT}** is a random string. To generate a random string you can use the following command (Command taken from [this](https://www.digitalocean.com/community/tutorials/how-to-install-umami-web-analytics-software-on-ubuntu-20-04) tutorial)
+ - **${UMAMI_HASH_SALT}** is a random string. To generate a random string you can use the following command (Command taken from [this tutorial](https://www.digitalocean.com/community/tutorials/how-to-install-umami-web-analytics-software-on-ubuntu-20-04))
 {{< code language="bash" title="hash generator" expand="Show" collapse="Hide" isCollapsed="false" >}}
 openssl rand -base64 32
 {{< /code >}}
@@ -139,7 +139,7 @@ As well as analytics of general visitors, you can track [specific events](https:
 ## CORS and CPS changes needed for Umami
 Long time readers of codeslikeaduck (which thanks to [Umami](https://umami.codeslikeaduck.com/share/Ljt3LRkD/codeslikeaduck) I now know don't exist) will know the importance of a strong [Content Security Policy](https://www.codeslikeaduck.com/posts/quickcspsetup/) (CSP). Also important for a secure website is adding headers to define [Cross-Origin Resource Sharing](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) (CORS) parameters. If you have CSP and CORS headers set on your website, when you add the tracking code snippets it probably wont work. That's good news, it means your site wont run random scripts, but we need to add some exceptions for Umami. 
 
-Below is a summary of the changes I had to make so that Umami could function, you can find the full docker-compose.yml file [here](https://github.com/mpdcampbell/blog/blob/master/docker-compose-blog.yml).
+Below is a summary of the changes I had to make so that Umami could function, link to the [full docker-compose.yml](https://github.com/mpdcampbell/blog/blob/master/docker-compose-blog.yml).
 
 - Domain being tracked
     *  Content Security Policy: Add Umami domain to script-src and content-src  
