@@ -1,4 +1,4 @@
-baseUrl: /
+baseUrl: "https://codeslikeaduck.com"
 languageCode: en-us
 theme: terminal
 paginate: 5
