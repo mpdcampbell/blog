@@ -85,7 +85,7 @@ echo "The errors middleware is working" > errorPage/html/custom.html
 
 Now the directory is ready, we can add the Nginx container.
 
-Below is the minimum config to deploy the Nginx container. A more complete config with added security middlewares is shown [here](https://github.com/mpdcampbell/blog/blob/master/docker-compose-blog.yml). If you don't bother with a [CSP](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP) for your site, a [previous post](https://www.codeslikeaduck.com/posts/quickcspsetup/) shows bare minimum effort to set one up.
+Below is the minimum config to deploy the Nginx container. For comparison, see a more [complete configuration](https://blog.139381512.xyz/) with added security middlewares. If you don't bother with a [CSP](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP) for your site, a [previous post](https://www.codeslikeaduck.com/posts/quickcspsetup/) shows bare minimum effort to set one up.
 
 {{< code language="yml" title="Nginx docker-compose.yml [Bare bones set up]" expand="Show" collapse="Hide" isCollapsed="false" >}}
 errorPage:
