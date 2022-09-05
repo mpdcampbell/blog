@@ -14,12 +14,13 @@ params:
   readingTime: true
   enableEmoji: true
   enableInlineShortcodes: true
+  domain: "https://codeslikeaduck.com"
 
 languages:
   en:
     languageName: English
     title: codeslikeaduck
-    subtitle: "A series of how to articles documenting what I learn tinkering with my self-host server."
+    subtitle: "How to articles documenting what I learn tinkering with my self-host server."
     keywords: "traefik, self-hosting, docker, how to"
     menuMore: Show more
     readMore: Read more
