@@ -1,6 +1,6 @@
 +++
 title = "Randomise your 404 page with Nginx & Traefik"
-date = "2022-08-30"
+date = "2022-09-05"
 keywords = "traefik nginx docker random 404 error"
 description = "tl;dr: You can use the [split_clients module](https://nginx.org/en/docs/http/ngx_http_split_clients_module.html) in Nginx to randomly choose the page served in response to a query. This post shows how to configure a randomised error page in Nginx and Traefik. Refresh [this 404 error](https://www.codeslikeaduck.com/error) to see an example."
 +++
