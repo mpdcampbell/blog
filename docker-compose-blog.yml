@@ -63,7 +63,7 @@ services:
         - "traefik.http.routers.errorpage-rtr.tls=true"
         - "traefik.http.routers.errorpage-rtr.tls.options=tls-opts@file"
       # Middlewares
-        - "traefik.http.routers.errorpage-rtr.middlewares=errorpage-headers,chain-no-authelia@file,middlewares-noindex-header@file"
+        - "traefik.http.routers.errorpage-rtr.middlewares=errorpage-headers,chain-no-authelia@file,middlewares-noindex-header@file,errorpage-redirect"
         - "traefik.http.middlewares.errorpage-headers.headers.accesscontrolalloworiginlist=https://${BLOGDOMAIN}, https://www.${BLOGDOMAIN}"
         - "traefik.http.middlewares.errorpage-headers.headers.allowedhosts=error.${BLOGDOMAIN}"
         - "traefik.http.middlewares.errorpage-headers.headers.sslproxyheaders.X-Forwarded-Proto=https"
