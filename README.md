@@ -1,4 +1,4 @@
-# [<img alt="alt_text" width="50px" src="https://www.codeslikeaduck.com/img/codeDuck.svg" />](https://www.codeslikeaduck.com/) codeslikeaduck.com  <br> 
+# [<img alt="alt_text" width="50px" src="https://www.codeslikeaduck.com/img/codeDuck.svg" />](https://www.codeslikeaduck.com/) codeslikeaduck.com </br>[![Docker Pulls](https://img.shields.io/mozilla-observatory/grade-score/codeslikeaduck.com?publish)](https://observatory.mozilla.org/analyze/codeslikeaduck.com) <br> 
 
 - The site is self-hosted, set up in a [Hugo docker container](https://github.com/klakegg/docker-hugo#readme) with request routing handled by [Traefik](https://github.com/traefik/traefik#readme).</br>
 - It's a [Hugo](https://gohugo.io/) site using the [Terminal](https://github.com/panr/hugo-theme-terminal) theme with some minor CSS tweaks.
