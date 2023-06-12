@@ -1,10 +1,15 @@
 +++
-title = "A geoip whitelist for Traefik"
+title = "A GeoIP allowlist for Traefik"
 date = "2022-05-22"
-description = "tl;dr: Cloudflare proxy has a useful geoip block/allowlist feature to allow only traffic from certain countries to visit your site, but Cloudflare proxy has usage rules. Using [this bash script](https://github.com/mpdcampbell/traefik-geo-ipwhitelist) you can recreate the same functionality in Traefik."
+description = "tl;dr: Cloudflare proxy has a useful GeoIP block/allowlist feature to allow only traffic from certain countries to visit your site, but Cloudflare proxy has usage rules. Using [this bash script](https://github.com/mpdcampbell/traefik-geo-ipwhitelist) you can recreate the same functionality in Traefik."
 +++
 
-> tl;dr: Cloudflare proxy has a useful geoip block/allowlist feature to allow only traffic from certain countries to visit your site, but Cloudflare proxy has usage rules. Using [this bash script](https://github.com/mpdcampbell/traefik-geo-ipwhitelist) you can recreate the same functionality in Traefik.
+---
+**_The bash script this article talks about has been completely rewritten, along with extra functionality its now packaged in a Docker container. Everything beyond the 'Why' in this article is now out of date. Please see [up to date article]()._**
+
+---
+
+> tl;dr: Cloudflare proxy has a useful GeoIP block/allowlist feature to allow only traffic from certain countries to visit your site, but Cloudflare proxy has usage rules. Using [this bash script](https://github.com/mpdcampbell/traefik-geo-ipwhitelist) you can recreate the same functionality in Traefik.
 
 ## Why
 
@@ -22,10 +27,10 @@ _A quick Traefik explainer: [Traefik](https://github.com/traefik/traefik#readme)
 
 ## How
 
-1. Traefik has a built in middleware called [ipWhiteList](https://doc.traefik.io/traefik/middlewares/http/ipwhitelist/), which will only allow HTTP requests through to the service if they are in a defined list of allowed IPs. 
-2. Maxmind maintain a geolocation IP database called [GeoLite2](https://dev.maxmind.com/geoip/geolite2-free-geolocation-data?lang=en), which you can download with a free user account.
+1. Traefik has a built in middleware called [IPWhiteList](https://doc.traefik.io/traefik/middlewares/http/ipwhitelist/), which will only allow HTTP requests through to the service if they are in a defined list of allowed IPs. 
+2. Maxmind maintain a geolocation IP database called [GeoLite2](https://dev.maxmind.com/GeoIP/geolite2-free-geolocation-data?lang=en), which you can download with a free user account.
 
-To bridge 1 and 2 I wrote a [bash script](https://github.com/mpdcampbell/traefik-geo-ipwhitelist). The script creates a yml file defining a ipWhitelist middleware, downloads the csv version of the GeoLite2 database, extracts IPs which correspond to countries defined in the script, and appends them to the middleware. With this you can automate the adding of thousands of IPs to the whitelist. 
+To bridge 1 and 2 I wrote a [bash script](https://github.com/mpdcampbell/traefik-geo-ipwhitelist). The script creates a yml file defining a IPWhitelist middleware, downloads the csv version of the GeoLite2 database, extracts IPs which correspond to countries defined in the script, and appends them to the middleware. With this you can automate the adding of thousands of IPs to the whitelist. 
 
 **Performance**  
 But how does this brute force approach affect site response times?</br>
