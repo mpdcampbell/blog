@@ -4,7 +4,7 @@ date = "2023-01-21"
 description = "tl;dr: If you use Traefik, this [Docker container](https://github.com/mpdcampbell/traefik-geo-ipwhitelist) lets you restrict access to your online services on a country, state, or town level. It maintains an [IPWhitelist middleware](https://doc.traefik.io/traefik/middlewares/http/ipwhitelist/) with a list of IPs matching the allowed locations."
 +++
 
-> tl;dr: If you use Traefik, this [Docker container](https://github.com/mpdcampbell/traefik-geo-ipwhitelist) lets you restrict access to your online services on a country, state, or town level. It maintains an [IPWhitelist middleware](https://doc.traefik.io/traefik/middlewares/http/ipwhitelist/) with a list of IPs matching the allowed locations."
+> tl;dr: If you use Traefik, this [Docker container](https://github.com/mpdcampbell/traefik-geo-ipwhitelist) lets you restrict access to your online services on a country, state, or town level. It maintains an [IPWhitelist middleware](https://doc.traefik.io/traefik/middlewares/http/ipwhitelist/) with a list of IPs matching the allowed locations.
 
 ## Improved from what?
 This project used to be a [bash script](https://www.codeslikeaduck.com/posts/geoipwhitelistscript/) with only country level filtering, some dependencies, and which used the system crontab. Now its a Docker container with more features, all the dependencies bundled in, and uses its own crontab. Much neater.
