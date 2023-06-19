@@ -5,7 +5,7 @@ description = "tl;dr: Cloudflare proxy has a useful GeoIP block/allowlist featur
 +++
 
 ---
-**_The bash script this article talks about has been completely rewritten, along with extra functionality its now packaged in a Docker container. Everything beyond the 'Why' in this article is now out of date. Please see [up to date article]()._**
+**_The bash script this article talks about has been completely rewritten, along with extra functionality its now packaged in a Docker container. Everything beyond the 'Why' in this article is now out of date. Please see [up to date article](https://www.codeslikeaduck.com/posts/geoipwhitelistdocker/)._**
 
 ---
 
