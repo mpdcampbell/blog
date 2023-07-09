@@ -72,6 +72,12 @@
 
   pre {
     margin-top: 0;
+    padding-top: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-bottom: 0px;
+    border-bottom: 0px;
+
 
     &::first-line {
       line-height: 0;

@@ -1,0 +1,11 @@
+{{ $id := delimit (shuffle (seq 1 9)) "" }}
+
+  <div class="collapsable-code">
+    <input id="{{ .Get "id" | default $id }}" type="checkbox" {{ if ( eq ( .Get "isCollapsed" ) "true" ) -}} checked {{- end }} />
+    <label for="{{ .Get "id" | default $id }}">
+      <span class="collapsable-code__language">{{ .Get "contentType" }}</span>
+      {{ if .Get "title" }}<span class="collapsable-code__title">{{ .Get "title" | safeHTML }}</span>{{ end }}
+      <span class="collapsable-code__toggle" data-label-expand="{{ .Get "expand" | default "△" }}" data-label-collapse="{{ .Get "collapse" | default "▽" }}"></span>
+    </label>
+    <pre><div class="code-toolbar">{{ .Inner | safeHTML }}</div></pre>
+  </div>
