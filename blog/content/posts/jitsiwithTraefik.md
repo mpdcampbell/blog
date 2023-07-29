@@ -1,6 +1,6 @@
 +++
 title = "Set up Jitsi behind Traefik"
-date = "2023-06-30"
+date = "2023-07-27"
 keywords = "traefik jitsi docker"
 description = "tl;dr: [Jitsi](https://jitsi.github.io/handbook/docs/intro) is effectively open source Zoom that you can self host. This post describes how to get Jitsi working behind Traefik."
 +++
