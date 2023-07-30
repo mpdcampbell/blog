@@ -2,7 +2,7 @@
 title = "Set up Jitsi behind Traefik"
 date = "2023-07-27"
 keywords = "traefik jitsi docker"
-description = "tl;dr: [Jitsi](https://jitsi.github.io/handbook/docs/intro) is effectively open source Zoom that you can self host. This post describes how to get Jitsi working behind Traefik."
+description = "tl;dr: [Jitsi](https://jitsi.github.io/handbook/docs/intro) is effectively open source Zoom that you can self-host. This post describes how to get Jitsi working behind Traefik."
 +++
 
 > tl;dr: [Jitsi](https://jitsi.github.io/handbook/docs/intro) is effectively open source Zoom that you can self host. This post describes how to get Jitsi working behind Traefik.
@@ -22,7 +22,7 @@ description = "tl;dr: [Jitsi](https://jitsi.github.io/handbook/docs/intro) is ef
 [Jitsi](https://jitsi.github.io/handbook/docs/intro) describes itself as video conferencing solution, I'd describe it as open source Zoom. But crucially, as FOSS, Jitsi includes the same features as enterprise Zoom for free. If you don't want to self host (why are you reading this), then you can use their [official instance](https://meet.jit.si/) for free. Unlike Zoom there is no time limits.
 
 ## Why
-During the pandemic I hosted Jitsi as a Zoom alternative for the obligatory friend group pub quiz. Recently I hadn't used it for over a year and, after updating to the latest version, I found my instance was broken. Attempting to set Jitsi up again from scratch, because I was using Traefik reverse proxy I couldn't find a straight forward "just do this" guide. There is extensive [official documentation](https://jitsi.github.io/handbook/docs/devops-guide/devops-guide-docker/) on hosting with Docker in general, including [guidance](https://jitsi.github.io/handbook/docs/devops-guide/devops-guide-docker/#running-behind-a-reverse-proxy) if you are using Nginx or Apache as a reverse proxy. But unfortunately no lazy copy-paste snippets for Traefik.
+During the pandemic I hosted Jitsi as a Zoom alternative for the obligatory friend group pub quiz. Recently I hadn't used it for over a year and, after updating to the latest version, I found my instance was broken. Attempting to set Jitsi up again from scratch, I couldn't that a straight forward "just do this" guide that worked with Traefik. There is extensive [official documentation](https://jitsi.github.io/handbook/docs/devops-guide/devops-guide-docker/) on hosting with Docker in general, including [guidance](https://jitsi.github.io/handbook/docs/devops-guide/devops-guide-docker/#running-behind-a-reverse-proxy) if you are using Nginx or Apache as a reverse proxy. But unfortunately no lazy copy-paste snippets for Traefik.
 
 There is an [example docker-compose.yml](https://github.com/jitsi-contrib/jitsi-traefik/tree/main/traefik-v2) for Traefik on the third-party contribution repo, but as of writing it's two years old and didn't work when I blindly followed it. Also, among the docker repository issues there is a detailed [step by step guide](https://github.com/jitsi/docker-jitsi-meet/issues/1271#issuecomment-1113991933) from a user on how they got their Jitsi instance working behind Traefik, but unfortunately this didn't work for me either.
 
@@ -241,7 +241,7 @@ But this didn't make sense, I should have plenty of bandwidth. It turns out I wa
 
 By default Jitsi measures the network connection between clients and will auto-scale the video quality, including turning it off, depending on available bandwidth and if the streams are in tile view vs fullscreen. Disabling simulcast will [disable this behaviour](https://community.jitsi.org/t/performance-settings-in-high-quality/121812/2). The [result](https://community.jitsi.org/t/how-are-video-streams-handled-with-disabling-simulcast/125120) is the full video quality will be streamed from all clients to all clients, all the time. This is a lot of bandwidth that needs to run through the JVB on your server. Intuitively, choosing to disable simulcast is removing functionality and wasting bandwidth.
 
-With that warning said, I found the auto-scaling was overly aggressive for some reason and kept turning off video feeds. Also, I should have plenty of bandwidth available for the small games nights I host, and my friends also have decent internet connections. So, rather than debug this weird behaviour it was was easier to take the brute-force approach and disable the video auto-scaling entirely.
+With that warning said, I found the auto-scaling was overly aggressive for some reason and kept turning off video feeds. Also, I should have plenty of bandwidth available for the small games nights I host, and my friends also have decent internet connections. So, rather than debug this weird behaviour it was [easier](https://xkcd.com/1495/) to take the brute-force approach and turn off the video auto-scaling entirely.
 
 To do this you need to add the ENABLE_SIMULCAST environment variable to the jitsi-web container in the docker-compose.yml, and set its value to false in the .env file.
 
