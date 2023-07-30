@@ -7,6 +7,13 @@ description = "tl;dr: The default error pages in Traefik are very basic. Using t
 
 > tl;dr: The default error pages in Traefik are very basic. Using the [errors middleware](https://doc.traefik.io/traefik/middlewares/http/errorpages/) when a request returns an error HTTP status code you can serve a [custom page](https://www.codeslikeaduck.com/error) instead.
 
+# Contents
+- [How it works](#how-it-works)
+- [How to set it up in Docker](#how-to-set-it-up-in-docker)
+- [Be careful of relative paths](#be-careful-of-relative-paths)
+  - [Why be careful?](#why-be-careful)
+---
+
 ## How it works
 
 {{< code language="ascii" title="Error Middleware Flow Diagram" expand="Show" collapse="Hide" isCollapsed="false" >}}
@@ -36,7 +43,7 @@ http://codeslikeaduck.com/page│          │custom.html
                             │    ERRORS    ◄────────────────┤  SERVICE B  │
                             │  MIDDLEWARE  ├────────────────►             │
                             │              │[6]  REQUEST    └─────────────┘
-                            └─┬──────────▲─┘   /custom.html 
+                            └─┬──────────▲─┘   /custom.html
                            [4]│          │
 http://codeslikeaduck.com/page│          │Error
                               │          │Status Code
@@ -48,7 +55,7 @@ http://codeslikeaduck.com/page│          │Error
                             └──────────────┘
 {{< /code >}}
 
-General Traefik operation is that a HTTP request reaches the server entrypoint (usually port 80 or 443), it is picked up by the appropriate router, the request is modified according to any defined rules and routed through any attached middlewares, before being passed to the service. The service response is then routed back through the chain. 
+General Traefik operation is that a HTTP request reaches the server entrypoint (usually port 80 or 443), it is picked up by the appropriate router, the request is modified according to any defined rules and routed through any attached middlewares, before being passed to the service. The service response is then routed back through the chain.
 
 With the errors middleware the original request is passed through unaltered, but when the service responds with an error status code the errors middleware then sends a custom GET request to a separate service. The response of this separate service is then returned in response to the external request, along with the error status code.
 
@@ -90,7 +97,7 @@ Below is the minimum config to deploy the Nginx container. For comparison, see a
 {{< code language="yml" title="Nginx docker-compose.yml [Bare bones set up]" expand="Show" collapse="Hide" isCollapsed="false" >}}
 errorPage:
       container_name: errorPage
-      image: nginx 
+      image: nginx
       restart: always
       networks:
         - ${TRAEFIK_NETWORK}
@@ -158,7 +165,7 @@ The simplest option is to define the middleware in the docker-compose.yml as you
 
  - First line defines the range of HTTP status codes that the errors middleware (called errorpage-redirect here) will react to. For example if you replaced 400-599 with 404 then only 404 status code responses will get served custom.html and all other errors will be routed through unaffected.
  - Second line is the name of the service the errors middleware should send the custom GET request to, no need to change this.
- - Third line defines what query will be sent to the errorPage container. Here you can use the {status} variable, where status will be replaced by whatever error status code was received. With this you could serve different error pages for every status code if you wanted. 
+ - Third line defines what query will be sent to the errorPage container. Here you can use the {status} variable, where status will be replaced by whatever error status code was received. With this you could serve different error pages for every status code if you wanted.
 
 Now the errors middleware has been created we can add it to the routers for every service we want to return the custom error page. In my case I host codeslikeaduck.com as a container named "blog" and I add the errorpage-redirect middleware to the blog service router, [my docker-compose.yml](https://github.com/mpdcampbell/blog/blob/master/docker-compose-blog.yml#L32). But for a general case you can add the middleware to a service by adding the below under that containers labels.
 
@@ -166,7 +173,7 @@ Now the errors middleware has been created we can add it to the routers for ever
 - "traefik.http.routers.router-name.middlewares=errorpage-redirect"
 {{< /code >}}
 
-With that added, now when you rebuild your docker-compose.yml the custom error page should be working. Visit a non-existent page on your service domain to confirm you are served a blank page with the text "The errors middleware is working". 
+With that added, now when you rebuild your docker-compose.yml the custom error page should be working. Visit a non-existent page on your service domain to confirm you are served a blank page with the text "The errors middleware is working".
 
 __Congratulations!__ Now just replace custom.html with your personalised error page and jobs done. However, you should give some consideration when designing the error page...
 
@@ -177,7 +184,7 @@ If your error page is self contained within a single html file, for example this
 
 This is easiest explained with an example. Following the flow diagram above, if a user requests a page that doesn't exist, https://codeslikeaduck.com/notexist, Traefik routes the request to the service hosting codeslikeaduck.com, the service responds with status 404, the errors middleware will  then intercept and query the errorPage service, which will successfully return custom.html. The users browser then runs through custom.html until it reaches the line:
 
-```<link rel="stylesheet" href="css/app.css" type="text/css"/>"``` 
+```<link rel="stylesheet" href="css/app.css" type="text/css"/>"```
 
 The browser will then request codeslikeaduck.com/css/app.css, which will get routed by Traefik to the service hosting codeslikeaduck.com, which will respond 404, which will get intercepted by the errors middleware and the server will respond with custom.html. This wont match the expected content-type and the browser will return an error.
 

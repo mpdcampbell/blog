@@ -7,6 +7,12 @@ description = "tl;dr: [Sharry](https://github.com/eikek/sharry#readme) is a self
 
 > tl;dr: [Sharry](https://github.com/eikek/sharry#readme) is a selfhost file upload-download service, it supports grouped uploads of hundreds of files, but only individual file downloads. This [bash script](https://github.com/mpdcampbell/sharry-chunk-combiner#readme) combines the chunks in the database to quickly rebuild local copies of the files.
 
+# Contents
+- [Why make this?](#why-make-this)  
+- [How does it work?](#how-does-it-work)  
+- [How do you use it?](#how-do-you-use-it)  
+---
+
 ## Why make this?
 I got married and wanted a selfhost solution for our friends and family to upload photos and videos. A fair amount of guests were not tech savvy people so the file uploading process needed to be as user friendly as possible, in particular on mobile. [Sharry](https://github.com/eikek/sharry) fit the bill, authenticated users can generate custom urls and anyone with the url can upload files but not view them. However there was major one flaw for my use case, users can upload huge number of photos at once but you can only download the files individually. The creator [plans to add](https://github.com/eikek/sharry/issues/907) "Download as zip" as a feature, but not for at least a year.
 

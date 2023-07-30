@@ -6,6 +6,15 @@ description = "tl;dr: If you use Traefik, this [Docker container](https://github
 
 > tl;dr: If you use Traefik, this [Docker container](https://github.com/mpdcampbell/traefik-geo-ipwhitelist) lets you restrict access to your online services on a country, state, or town level. It maintains an [IPWhitelist middleware](https://doc.traefik.io/traefik/middlewares/http/ipwhitelist/) with a list of IPs matching the allowed locations.
 
+# Contents
+- [Improved from what?](#improved-from-what)
+- [What features?](#what-features)
+- [Why use a GeoIP allowlist?](#why-use-a-geoip-allowlist)
+- [How does it work?](#how-does-it-work)
+- [How do I use it?](#how-do-i-use-it)
+- [Does it impact performance?](#does-it-impact-performance)
+---
+
 ## Improved from what?
 This project used to be a [bash script](https://www.codeslikeaduck.com/posts/geoipwhitelistscript/) with only country level filtering, some dependencies, and which used the system crontab. Now its a Docker container with more features, all the dependencies bundled in, and uses its own crontab. Much neater.
 
@@ -16,7 +25,7 @@ e.g New-Zealand:Wellington
 - Automatically keeps the GeoIP list up to date.
 - Isn't a plugin. 
 
-## Why use a GeoIP filter?
+## Why use a GeoIP allowlist?
 
 This is a niche article on an hobby blog, so the odds are you already know why. But on the off chance this section header struck SEO gold; the basic idea is that the less of the world wide web can access your site/online service then the less of it can attack you. 
 

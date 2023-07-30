@@ -7,6 +7,16 @@ description = "tl;dr: The popular self-host CCTV solutions are bloated with feat
 
 > tl;dr: The popular self-host CCTV solutions are bloated with features you don't need just to securely watch your dog. This post argues you should use [go2rtc](https://github.com/AlexxIT/go2rtc) instead, and explains how to set up a live feed of your pet cam.
 
+# Contents
+- [Why use go2rtc?](#why-use-go2rtc)
+- [Do I need a specific camera?](#do-i-need-a-specific-camera)
+- [Plan your security first](#plan-your-security-first)
+- [How to set up go2rtc](#how-to-set-up-go2rtc)
+  - [Wait, where is the video feed?](#wait-where-is-the-video-feed)
+- [Use reverse proxy to set homepage to the camera feed](#use-reverse-proxy-to-set-homepage-to-the-camera-feed)
+  - [But now how do I access the menu?](#but-now-how-do-i-access-the-menu)
+---
+
 ### Why use go2rtc?
 If you ask online about software for self-hosting your own security cameras, you will see the same popular services suggested:
  - [Zoneminder](https://github.com/ZoneMinder/zoneminder) (Old faithful, FOSS)
@@ -111,7 +121,7 @@ docker logs -tf go2rtc
 {{< /code >}}
 
 
-## Wait, where is the video feed?
+#### Wait, where is the video feed?
 Ok so my whole spiel was I promised a straightforward link to your camera feeds, and you've noticed the default go2rtc homepage is a distinctly video-less menu screen.
 
 {{< collapsable-box contentType="Screenshot" title="Go2rtc web UI" expand="Show" collapse="Hide" isCollapsed="false" >}}
