@@ -7,6 +7,13 @@ description = "tl;dr: You can use the [split_clients module](https://nginx.org/e
 
 > tl;dr: You can use the [split_clients module](https://nginx.org/en/docs/http/ngx_http_split_clients_module.html) in Nginx to randomly choose the page served in response to a query. This post shows how to configure a randomised error page in Nginx and Traefik. Refresh [this 404 error](https://www.codeslikeaduck.com/error) to see an example.
 
+# Contents
+- [Why do this?](#why-do-this)
+- [How to configure this in Nginx](#how-to-configure-this-in-nginx)
+  - [How split_clients works](#how-split_clients-works)
+- [How to configure this for Traefik](#how-to-configure-this-for-traefik)
+---
+
 # Why do this?
 When deciding on an error page for codeslikeaduck, I ended up with two different options; this [space theme 404 page](https://github.com/mpdcampbell/blog/tree/master/errorPage/html/space) and this [duck themed 404 page](https://github.com/mpdcampbell/blog/tree/master/errorPage/html/duck). I like them both and they both took time to customise. I had difficulty choosing, so I didn't. When an error occurs you are now randomly served one of the two.
 
