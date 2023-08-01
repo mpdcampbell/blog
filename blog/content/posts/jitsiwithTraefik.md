@@ -7,7 +7,7 @@ description = "tl;dr: [Jitsi](https://jitsi.github.io/handbook/docs/intro) is ef
 
 > tl;dr: [Jitsi](https://jitsi.github.io/handbook/docs/intro) is effectively open source Zoom that you can self host. This post describes how to get Jitsi working behind Traefik.
 
-# Contents
+## Contents
 - [What](#what)  
 - [Why](#why)  
 - [How](#how)  

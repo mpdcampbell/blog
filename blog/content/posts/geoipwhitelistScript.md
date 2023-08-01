@@ -11,7 +11,7 @@ description = "tl;dr: Cloudflare proxy has a useful GeoIP block/allowlist featur
 
 > tl;dr: Cloudflare proxy has a useful GeoIP block/allowlist feature to allow only traffic from certain countries to visit your site, but Cloudflare proxy has usage rules. Using [this bash script](https://github.com/mpdcampbell/traefik-geo-ipwhitelist) you can recreate the same functionality in Traefik.
 
-# Contents
+## Contents
 - [Why](#why)
 - [How](#how)
   - [Performance](#performance)
