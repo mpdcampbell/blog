@@ -7,17 +7,17 @@ description = "tl;dr: You can use the [split_clients module](https://nginx.org/e
 
 > tl;dr: You can use the [split_clients module](https://nginx.org/en/docs/http/ngx_http_split_clients_module.html) in Nginx to randomly choose the page served in response to a query. This post shows how to configure a randomised error page in Nginx and Traefik. Refresh [this 404 error](https://www.codeslikeaduck.com/error) to see an example.
 
-# Contents
+## Contents
 - [Why do this?](#why-do-this)
 - [How to configure this in Nginx](#how-to-configure-this-in-nginx)
   - [How split_clients works](#how-split_clients-works)
 - [How to configure this for Traefik](#how-to-configure-this-for-traefik)
 ---
 
-# Why do this?
+## Why do this?
 When deciding on an error page for codeslikeaduck, I ended up with two different options; this [space theme 404 page](https://github.com/mpdcampbell/blog/tree/master/errorPage/html/space) and this [duck themed 404 page](https://github.com/mpdcampbell/blog/tree/master/errorPage/html/duck). I like them both and they both took time to customise. I had difficulty choosing, so I didn't. When an error occurs you are now randomly served one of the two.
 
-# How to configure this in Nginx
+## How to configure this in Nginx
 Open the Nginx configuration file. If you don't have an existing Nginx webserver you can follow the first few steps of this [tutorial](https://www.codeslikeaduck.com/posts/custom404withtraefik/#how-to-set-it-up-in-docker) to deploy one in docker. Below is an example configuration for basic webserver.
 
 {{< code language=".conf" title="Basic Nginx config" expand="Show" collapse="Hide" isCollapsed="false" >}}
@@ -86,7 +86,7 @@ server {
 
 Here with have two versions of 404.html that we want to choose one of at random. Each page is saved in a separate directory at the root path, /usr/share/nginx/html/duck and /usr/share/nginx/html/space respectively.
 
-# How to configure this for Traefik
+## How to configure this for Traefik
 In a [previous post](https://www.codeslikeaduck.com/posts/custom404withtraefik/) we talked through how you can serve a custom error page in Traefik by hosting that error page in Nginx service and redirecting any queries with an error status code response to this service. So really to configure the randomisation for Traefik is still just configuring for Nginx and the above explanation on split_clients should be enough to customise to your use case.
 
 But if you followed the previous post and are picking up from there exactly, the below configuration allows for the fact we exposed the Nginx service on a subdomain, [error.codeslikeaduck.com](https://error.codeslikeaduck.com), and want that subdomain to resolve when visited directly. Note our Nginx service is set up solely for returning 404.html so we don't need to worry about the error_page directive, any http status code errors from the service itself can be handled by adding the errors middleware we set up to the Nginx service router.

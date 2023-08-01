@@ -7,7 +7,7 @@ description = "tl;dr: The popular self-host CCTV solutions are bloated with feat
 
 > tl;dr: The popular self-host CCTV solutions are bloated with features you don't need just to securely watch your dog. This post argues you should use [go2rtc](https://github.com/AlexxIT/go2rtc) instead, and explains how to set up a live feed of your pet cam.
 
-# Contents
+## Contents
 - [Why use go2rtc?](#why-use-go2rtc)
 - [Do I need a specific camera?](#do-i-need-a-specific-camera)
 - [Plan your security first](#plan-your-security-first)

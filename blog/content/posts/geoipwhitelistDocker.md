@@ -6,7 +6,7 @@ description = "tl;dr: If you use Traefik, this [Docker container](https://github
 
 > tl;dr: If you use Traefik, this [Docker container](https://github.com/mpdcampbell/traefik-geo-ipwhitelist) lets you restrict access to your online services on a country, state, or town level. It maintains an [IPWhitelist middleware](https://doc.traefik.io/traefik/middlewares/http/ipwhitelist/) with a list of IPs matching the allowed locations.
 
-# Contents
+## Contents
 - [Improved from what?](#improved-from-what)
 - [What features?](#what-features)
 - [Why use a GeoIP allowlist?](#why-use-a-geoip-allowlist)

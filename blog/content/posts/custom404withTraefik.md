@@ -7,7 +7,7 @@ description = "tl;dr: The default error pages in Traefik are very basic. Using t
 
 > tl;dr: The default error pages in Traefik are very basic. Using the [errors middleware](https://doc.traefik.io/traefik/middlewares/http/errorpages/) when a request returns an error HTTP status code you can serve a [custom page](https://www.codeslikeaduck.com/error) instead.
 
-# Contents
+## Contents
 - [How it works](#how-it-works)
 - [How to set it up in Docker](#how-to-set-it-up-in-docker)
 - [Be careful of relative paths](#be-careful-of-relative-paths)

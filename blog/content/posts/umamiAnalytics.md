@@ -6,7 +6,7 @@ description = "tl;dr: [Umami](https://umami.is/) is a simple and privacy-focused
 
 > tl;dr: [Umami](https://umami.is/) is a simple and privacy-focused web analytics tool. This post runs through deploying Umami with Docker to track codeslikeaduck.com, which required some CSP and CORS header tweaks for hosting online. You can [view the analytics](https://umami.codeslikeaduck.com/share/Ljt3LRkD/codeslikeaduck)." 
 
-# Contents
+## Contents
 - [Why Analytics](#why-analytics)
 - [Why Umami](#why-umami)
 - [How to set up Umami in Docker](#how-to-set-up-umami-in-docker)

@@ -7,7 +7,7 @@ description = "tl;dr: [Sharry](https://github.com/eikek/sharry#readme) is a self
 
 > tl;dr: [Sharry](https://github.com/eikek/sharry#readme) is a selfhost file upload-download service, it supports grouped uploads of hundreds of files, but only individual file downloads. This [bash script](https://github.com/mpdcampbell/sharry-chunk-combiner#readme) combines the chunks in the database to quickly rebuild local copies of the files.
 
-# Contents
+## Contents
 - [Why make this?](#why-make-this)  
 - [How does it work?](#how-does-it-work)  
 - [How do you use it?](#how-do-you-use-it)  
