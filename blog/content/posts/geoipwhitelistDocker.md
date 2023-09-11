@@ -1,8 +1,11 @@
 +++
 title = "An improved GeoIP allowlist for Traefik"
-date = "2023-01-21"
+date = "2023-05-12"
 description = "tl;dr: If you use Traefik, this [Docker container](https://github.com/mpdcampbell/traefik-geo-ipwhitelist) lets you restrict access to your online services on a country, state, or town level. It maintains an [IPWhitelist middleware](https://doc.traefik.io/traefik/middlewares/http/ipwhitelist/) with a list of IPs matching the allowed locations."
 +++
+
+## _This solution has been obsoleted by a new container, [traefik-geoip-filter](https://github.com/mpdcampbell/traefik-geoip-filter), which can act as either blocklist or allowlist. Please see the [up to date article](https://www.codeslikeaduck.com/posts/geoipfilter/)._
+----
 
 > tl;dr: If you use Traefik, this [Docker container](https://github.com/mpdcampbell/traefik-geo-ipwhitelist) lets you restrict access to your online services on a country, state, or town level. It maintains an [IPWhitelist middleware](https://doc.traefik.io/traefik/middlewares/http/ipwhitelist/) with a list of IPs matching the allowed locations.
 
@@ -31,7 +34,7 @@ This is a niche article on an hobby blog, so the odds are you already know why. 
 
 That sounds paranoid but there really is an endless stream of bots out there prodding every URL and IP for something exploitable. According to this [2022 report](https://www.imperva.com/resources/resource-library/reports/bad-bot-report/) (enter an example.com email to download), bad bots account for [~28%](https://xkcd.com/632/) of all traffic. And if your website is as [popular](https://umami.codeslikeaduck.com/share/Ljt3LRkD/codeslikeaduck) as this blog, then a lot more bots are visiting than humans. 
 
-Really, if you don't intend for your website or online service to have a global userbase then it shouldn't be globally available. 
+Really, if you don't intend for your website or online service to have a global userbase then it shouldn't be globally available.
 
 ## How does it work?
 

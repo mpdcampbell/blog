@@ -4,10 +4,8 @@ date = "2022-05-22"
 description = "tl;dr: Cloudflare proxy has a useful GeoIP block/allowlist feature to allow only traffic from certain countries to visit your site, but Cloudflare proxy has usage rules. Using [this bash script](https://github.com/mpdcampbell/traefik-geo-ipwhitelist) you can recreate the same functionality in Traefik."
 +++
 
----
-**_The bash script this article talks about has been completely rewritten, along with extra functionality its now packaged in a Docker container. Everything beyond the 'Why' in this article is now out of date. Please see [up to date article](https://www.codeslikeaduck.com/posts/geoipwhitelistdocker/)._**
-
----
+## _The bash script this article talks about has been completely rewritten, along with extra functionality its now packaged in a Docker container. Please see the [up to date article](https://www.codeslikeaduck.com/posts/geoipfilter/)._
+----
 
 > tl;dr: Cloudflare proxy has a useful GeoIP block/allowlist feature to allow only traffic from certain countries to visit your site, but Cloudflare proxy has usage rules. Using [this bash script](https://github.com/mpdcampbell/traefik-geo-ipwhitelist) you can recreate the same functionality in Traefik.
 
