@@ -1,4 +1,3 @@
-#version: "3.6"
 
 ############# 
 networks:
@@ -96,7 +95,7 @@ services:
         - TZ
 
     umami:
-      image: ghcr.io/mikecao/umami:postgresql-latest
+      image: ghcr.io/mikecao/umami:postgresql-v1.40.0
       container_name: umami
       restart: unless-stopped
       networks:

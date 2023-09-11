@@ -59,11 +59,11 @@ The module follows the following syntax:
 
 ```split_clients "$variable" $variant { x% string1; y% string2; * string3; }```
 
-Here $variable is any of the [Nginx variables](https://nginx.org/en/docs/varindex.html) and x and y are numbers whose sum is equal to or less than 100. The split_client directive will take the value of $variable as a string and convert it to a 32bit numerical hash. If the hash number falls within the first x percent of possible values then $variant is set to be an alias of "string1". If the hash number falls within the next y percent of possible values then $variant is an alias of "string2". For any other values, $variant is an alias of "string3".
+Here $variable is any of the [Nginx variables](https://nginx.org/en/docs/varindex.html) and x and y are numbers whose sum is equal to or less than 100. The split_client directive will take the value of $variable as a string and convert it to a 32bit numerical hash. If the hash number falls within the first x percent of possible values, then $variant is set to be an alias of "string1". If the hash number falls within the next y percent of possible values, then $variant is an alias of "string2". For any other values, $variant is an alias of "string3".
 
 By defining the error page response path using the $variant string, the Nginx server will respond with a different page depending on outcome of the split_client calculation. Typically, the split_clients directive is used for A/B testing where users are directed to different versions of a page dependent on a user specific variable like their IP Address. We don't want this because then the same user would always see the same error page. Instead we can use the [$request_id](https://nginx.org/en/docs/http/ngx_http_core_module.html#var_request_id) as our variable. 
 
-So for example, see the below configuration file:
+So, for example, see the below configuration file:
 {{< code language=".conf" title="split_clients config" expand="Show" collapse="Hide" isCollapsed="false" >}}
 split_clients "${request_id}" $variant {
     50% duck;

@@ -19,14 +19,14 @@ description = "tl;dr: [Jitsi](https://jitsi.github.io/handbook/docs/intro) is ef
 ---
 
 ## What
-[Jitsi](https://jitsi.github.io/handbook/docs/intro) describes itself as video conferencing solution, I'd describe it as open source Zoom. But crucially, as FOSS, Jitsi includes the same features as enterprise Zoom for free. If you don't want to self host (why are you reading this), then you can use their [official instance](https://meet.jit.si/) for free. Unlike Zoom there is no time limits.
+[Jitsi](https://jitsi.github.io/handbook/docs/intro) describes itself as video conferencing solution, I'd describe it as open source Zoom. But crucially, as FOSS, Jitsi includes the same features as enterprise Zoom for free. If you don't want to self host (why are you reading this), then you can use their [official instance](https://meet.jit.si/) for free. Unlike Zoom, there are no time limits.
 
 ## Why
-During the pandemic I hosted Jitsi as a Zoom alternative for the obligatory friend group pub quiz. Recently I hadn't used it for over a year and, after updating to the latest version, I found my instance was broken. Attempting to set Jitsi up again from scratch, I couldn't that a straight forward "just do this" guide that worked with Traefik. There is extensive [official documentation](https://jitsi.github.io/handbook/docs/devops-guide/devops-guide-docker/) on hosting with Docker in general, including [guidance](https://jitsi.github.io/handbook/docs/devops-guide/devops-guide-docker/#running-behind-a-reverse-proxy) if you are using Nginx or Apache as a reverse proxy. But unfortunately no lazy copy-paste snippets for Traefik.
+During the pandemic I hosted Jitsi as a Zoom alternative for the obligatory friend group pub quiz. Recently I hadn't used it for over a year and, after updating to the latest version, I found my instance was broken. Attempting to set Jitsi up again from scratch, I couldn't find a straight forward "just do this" guide that worked with Traefik. There is extensive [official documentation](https://jitsi.github.io/handbook/docs/devops-guide/devops-guide-docker/) on hosting with Docker in general, including [guidance](https://jitsi.github.io/handbook/docs/devops-guide/devops-guide-docker/#running-behind-a-reverse-proxy) if you are using Nginx or Apache as a reverse proxy. But unfortunately no lazy copy-paste snippets for Traefik.
 
 There is an [example docker-compose.yml](https://github.com/jitsi-contrib/jitsi-traefik/tree/main/traefik-v2) for Traefik on the third-party contribution repo, but as of writing it's two years old and didn't work when I blindly followed it. Also, among the docker repository issues there is a detailed [step by step guide](https://github.com/jitsi/docker-jitsi-meet/issues/1271#issuecomment-1113991933) from a user on how they got their Jitsi instance working behind Traefik, but unfortunately this didn't work for me either.
 
-_Editors Note: In hindsight, the jitsi-contrib [example](https://github.com/jitsi-contrib/jitsi-traefik/tree/main/traefik-v2) should work fine, it was just not sufficiently idiot proof for me as it is missing some necessary extra config steps to do with Traefik itself. Confusingly these extra steps are included in the instructions from the [github issue](https://github.com/jitsi/docker-jitsi-meet/issues/1271#issuecomment-1113991933), and should work, but didn't. I'm not sure why, maybe a mismatch with Traefik versions or the .env.example variables? It is the only file they didn't include copies of._
+_Editor's Note: In hindsight, the jitsi-contrib [example](https://github.com/jitsi-contrib/jitsi-traefik/tree/main/traefik-v2) should work fine, it was just not sufficiently idiotproof for me as it is missing some necessary extra config steps to do with Traefik itself. Confusingly, these extra steps are included in the instructions from the [github issue](https://github.com/jitsi/docker-jitsi-meet/issues/1271#issuecomment-1113991933), and should work, but didn't. I'm not sure why, maybe a mismatch with Traefik versions or the .env.example variables? It is the only file they didn't include copies of._
 
 _Regardless, both example files contain a lot of extraneous lines you don't need just to get Jitsi working, so I think following the below simpler guide is worthwhile for new users._
 
@@ -148,7 +148,7 @@ services:
       - "traefik.udp.services.jvb-svc.loadbalancer.server.port=10000"
 {{< /code >}}
 
-In the docker-compose.yml above there are comments pointing out any sections you need to change. Other than these parts, you can copy the above file exactly.
+In the docker-compose.yml above, there are comments pointing out any sections you need to change. Other than these parts, you can copy the above file exactly.
 
 {{< code language="bash" title=".env" expand="Show" collapse="Hide" isCollapsed="false" >}}
 HTTP_PORT=8000
@@ -194,7 +194,7 @@ sed -i.bak \
     "$(dirname "$0")/.env"
 {{< /code >}}
 
-The gen-passwords.sh script above has been [copied directly](https://github.com/jitsi/docker-jitsi-meet/blob/master/gen-passwords.sh) from the Jitsi repository, just with some lines deleted. The original generates passwords for the optional [Jigasi and Jibri](https://jitsi.github.io/handbook/docs/architecture) services we aren't using, but generating extra passwords wont do any harm, its just unnecessary. Rather than copy the above you could just download the script from there if you want.
+The gen-passwords.sh script above has been [copied directly](https://github.com/jitsi/docker-jitsi-meet/blob/master/gen-passwords.sh) from the Jitsi repository, just with some lines deleted. The original generates passwords for the optional [Jigasi and Jibri](https://jitsi.github.io/handbook/docs/architecture) services we aren't using, but generating extra passwords won't do any harm, it's just unnecessary. Rather than copy the above, you could just download the script from there if you want.
 
 Ensuring all three files are saved in the same directory, run the gen-passwords.sh script with the below command.
 
@@ -218,9 +218,9 @@ docker-compose up -d
 docker-compose -f PATH_TO_FILE/docker-compose.yml up -d
 {{< /code >}}
 
-Now open the PUBLIC_URL, i.e. jitsi.example.com, and you should see the Jitsi homepage. This doesn't prove its working yet though. You need to start a meeting with three users, all with active video feeds. You can do this by turning on your webcam and opening three duplicate tabs. It needs to be three as by default for two users Jitsi operates in a different peer to peer mode, only for 3 or more are the video feeds routed through the JVB container.
+Now open the PUBLIC_URL, i.e. jitsi.example.com, and you should see the Jitsi homepage. This doesn't prove it's working yet though. You need to start a meeting with three users, all with active video feeds. You can do this by turning on your webcam and opening three duplicate tabs. It needs to be three as by default for two users Jitsi operates in a different peer to peer mode, only for 3 or more are the video feeds routed through the JVB container.
 
-If all three of these video feeds are working then congratulations you have a working Jitsi instance!
+If all three of these video feeds are working then congratulations, you have a working Jitsi instance!
 
 If not, this guide has failed you. I recommend opening the browser developer console (Ctrl + Shift + I in most browsers) and looking for errors. You can also check the JVB container logs, the below command will open a live feed of the logs.
 
@@ -275,7 +275,7 @@ docker-compose -f PATH_TO_FILE/docker-compose.yml up -d
 
 
 #### Invalid message ... non-null is null
-This is an odd one. At one stage in trying to get Jitsi working this warning message was filling the logs for the JVB container.
+This is an odd one. At one stage in trying to get Jitsi working, this warning message was filling the logs for the JVB container.
 
 {{< code language="Log" title="Invalid message received" expand="Show" collapse="Hide" isCollapsed="false" >}}
 WARNING: Invalid message received (Parameter specified as non-null is null: method org.jitsi.videobridge.message.EndpointStats.put, parameter value (through reference chain: org.jitsi.videobridge.message.EndpointStats["connectionQuality"]):...
@@ -283,7 +283,7 @@ WARNING: Invalid message received (Parameter specified as non-null is null: meth
 
 Searching, I found [a fix](https://community.jitsi.org/t/jvb-error-invalid-message-received-parameter-specified-as-non-null-is-null/106505) for the issue on the Jitsi community forum, and adding it to my configuration stopped the issue. However, later when writing this post I removed the fix to try and recreate the error message and wasn't able to. I removed my Jitsi containers, images, volumes and deleted all files within ${CONFIG} to do a fresh install, but couldn't get the error to happen again.
 
-So I don't understand whats going on and really this could be a complete red herring, but in case you are seeing the same issue I've included the fix here. To apply the fix you need to add the below environment variables to the jitsi-web container in the docker-compose.yml, and set their values as shown in the .env file.
+So I don't understand what's going on and really this could be a complete red herring, but in case you are seeing the same issue I've included the fix here. To apply the fix you need to add the below environment variables to the jitsi-web container in the docker-compose.yml, and set their values as shown in the .env file.
 
 {{< code language="yaml" title="Adding VIDEOQUALITY variables to yml" expand="Show" collapse="Hide" isCollapsed="false" >}}
 ...
@@ -333,7 +333,7 @@ docker-compose -f PATH_TO_FILE/docker-compose.yml up -d
 Okay so your instance is working, now you want to play with all the options! A huge range of things can be controlled via environment variables. To see the full list you can check the [example docker-compose.yml](https://github.com/jitsi/docker-jitsi-meet/blob/master/docker-compose.yml) from the Jitsi Github repo. I left the majority of these out of my example as you don't need them just to get Jitsi up and running.
 
 #### Disable third party server requests
-There are even more settings that can't be controlled via the docker-compose.yml. These are setting which are configurable in the main non-docker build of Jitsi, but the necessary code hasn't been added to the docker image to allow them to be set via docker-compose. These settings are defined within config.js file. In our dockerised version of Jitsi this file is found at the Jitsi-web container config path, in our example case ${CONFIG}/web/config.js. However, by default it wont list every available setting that the non-docker build file contains.
+There are even more settings that can't be controlled via the docker-compose.yml. These are setting which are configurable in the main non-docker build of Jitsi, but the necessary code hasn't been added to the docker image to allow them to be set via docker-compose. These settings are defined within config.js file. In our dockerised version of Jitsi this file is found at the Jitsi-web container config path, in our example case ${CONFIG}/web/config.js. However, by default it won't list every available setting that the non-docker build file contains.
 
 You can view the full range of available settings at the [non-docker build repo](https://github.com/jitsi/jitsi-meet/blob/master/config.js) and then decide if you wish to change any in your Jitsi instance. One in particular I'd recommend is ``disableThirdPartyRequests``. Privacy is one of the main reasons to self host your instance, this setting ensures no external third party servers are contacted.
 
