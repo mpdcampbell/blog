@@ -57,7 +57,7 @@ http://codeslikeaduck.com/page│          │Error
 
 General Traefik operation is that a HTTP request reaches the server entrypoint (usually port 80 or 443), it is picked up by the appropriate router, the request is modified according to any defined rules and routed through any attached middlewares, before being passed to the service. The service response is then routed back through the chain.
 
-With the errors middleware the original request is passed through unaltered, but when the service responds with an error status code the errors middleware then sends a custom GET request to a separate service. The response of this separate service is then returned in response to the external request, along with the error status code.
+With the errors middleware the original request is passed through unaltered, but when the service responds with an error status code, the errors middleware then sends a custom GET request to a separate service. The response of this separate service is then returned in response to the external request, along with the error status code.
 
 ## How to set it up in Docker
 This tutorial assumes you already have a working Traefik configuration in Docker and you just wish to add the custom error page functionality. To act as the "Service B" in the above flow diagram we can set up an [Nginx web server](https://hub.docker.com/_/nginx/) to serve the error page.  
@@ -84,7 +84,7 @@ server {
 }
 {{< /code >}}
 
-The "listen" port that the container listens on can be set to different value if you wish but 80 works as a default. Similarly the custom.html file can renamed to whatever you like as long as it matches the actual filename. For now we'll create a test page.
+The "listen" port that the container listens on can be set to a different value if you wish, but 80 works as a default. Similarly, the custom.html file can be renamed to whatever you like as long as it matches the actual filename. For now, we'll create a test page.
 
 {{< code language="bash" title="Create test custom.html" expand="Show" collapse="Hide" isCollapsed="false" >}}
 echo "The errors middleware is working" > errorPage/html/custom.html
@@ -152,9 +152,9 @@ You should see something similar to below:
 2022/08/20 19:39:43 [notice] 1#1: start worker process 40
 {{< /code >}}
 
-So far so good, now let's create the errors middleware. There are two options (well there are [more options](https://doc.traefik.io/traefik/providers/overview/#supported-providers) but I'm only mentioning two) for how to define Traefik middlewares. We can either define it as part of the docker-compose.yml or in an [external file](https://doc.traefik.io/traefik/providers/file/). Defining middlewares in a separate file is useful for keeping your docker-compose.yml tidy, but it requires [some configuration](https://tech.aufomm.com/understand-file-provider-in-traefik-2/).
+So far so good, now let's create the errors middleware. There are two options (well, there are [more options](https://doc.traefik.io/traefik/providers/overview/#supported-providers), but I'm only mentioning two) for how to define Traefik middlewares. We can either define it as part of the docker-compose.yml or in an [external file](https://doc.traefik.io/traefik/providers/file/). Defining middlewares in a separate file is useful for keeping your docker-compose.yml tidy, but it requires [some configuration](https://tech.aufomm.com/understand-file-provider-in-traefik-2/).
 
-The simplest option is to define the middleware in the docker-compose.yml as you should already have docker defined as a provider in your [Traefik service configuration](https://github.com/mpdcampbell/selfhosted-services/blob/main/docker-compose-traefik.yml#L34). Append the below to the errorPage container.
+The simplest option is to define the middleware in the docker-compose.yml as you should already have Docker defined as a provider in your [Traefik service configuration](https://github.com/mpdcampbell/selfhosted-services/blob/main/docker-compose-traefik.yml#L34). Append the below to the errorPage container.
 
 {{< code language="yml" title="Error middleware docker-compose.yml syntax" expand="Show" collapse="Hide" isCollapsed="false" >}}
  # Errorpage-redirect middleware
@@ -165,9 +165,9 @@ The simplest option is to define the middleware in the docker-compose.yml as you
 
  - First line defines the range of HTTP status codes that the errors middleware (called errorpage-redirect here) will react to. For example if you replaced 400-599 with 404 then only 404 status code responses will get served custom.html and all other errors will be routed through unaffected.
  - Second line is the name of the service the errors middleware should send the custom GET request to, no need to change this.
- - Third line defines what query will be sent to the errorPage container. Here you can use the {status} variable, where status will be replaced by whatever error status code was received. With this you could serve different error pages for every status code if you wanted.
+ - Third line defines what query will be sent to the errorPage container. Here you can use the {status} variable, where status will be replaced by whatever error status code was received. With this, you could serve different error pages for every status code if you wanted.
 
-Now the errors middleware has been created we can add it to the routers for every service we want to return the custom error page. In my case I host codeslikeaduck.com as a container named "blog" and I add the errorpage-redirect middleware to the blog service router, [my docker-compose.yml](https://github.com/mpdcampbell/blog/blob/master/docker-compose-blog.yml#L32). But for a general case you can add the middleware to a service by adding the below under that containers labels.
+Now the errors middleware has been created we can add it to the routers for every service we want to return the custom error page. In my case I host codeslikeaduck.com as a container named "blog" and I add the errorpage-redirect middleware to the blog service router, [my docker-compose.yml](https://github.com/mpdcampbell/blog/blob/master/docker-compose-blog.yml#L32). But for a general case, you can add the middleware to a service by adding the below under that containers labels.
 
 {{< code language="yml" title="Add middleware to router" expand="Show" collapse="Hide" isCollapsed="false" >}}
 - "traefik.http.routers.router-name.middlewares=errorpage-redirect"
@@ -178,7 +178,7 @@ With that added, now when you rebuild your docker-compose.yml the custom error p
 __Congratulations!__ Now just replace custom.html with your personalised error page and jobs done. However, you should give some consideration when designing the error page...
 
 ## Be careful of relative paths
-If your error page is self contained within a single html file, for example this [space themed 404 page](https://github.com/mpdcampbell/blog/tree/master/errorPage/html/space), then there are no issues. But if the html, css and javascript are organised in separate files, for example this [duck themed 404 page](https://github.com/mpdcampbell/blog/tree/master/errorPage/html/duck), any files referenced by relative paths won't load successfully. At least not if if they are hosted with the error page service.
+If your error page is self-contained within a single html file, for example this [space themed 404 page](https://github.com/mpdcampbell/blog/tree/master/errorPage/html/space), then there are no issues. But if the html, css and javascript are organised in separate files, for example this [duck themed 404 page](https://github.com/mpdcampbell/blog/tree/master/errorPage/html/duck), any files referenced by relative paths won't load successfully. At least not if if they are hosted with the error page service.
 
 #### Why be careful?
 
@@ -188,7 +188,7 @@ This is easiest explained with an example. Following the flow diagram above, if 
 
 The browser will then request codeslikeaduck.com/css/app.css, which will get routed by Traefik to the service hosting codeslikeaduck.com, which will respond 404, which will get intercepted by the errors middleware and the server will respond with custom.html. This wont match the expected content-type and the browser will return an error.
 
-You could solve this by locally storing the css, js and other assets for the error page in the original service volume. But that seems messy and confusing as the html would be in a separate service volume. You could also use [regex and path rules](https://doc.traefik.io/traefik/routing/routers/) to be more precise about what queries are routed where, but that feels overly complicated and could lead to accidental routing of valid asset queries away from the original service. Instead of those options, I recommend exposing the assets to the web so you can replace all relative paths with a URL.  
+You could solve this by locally storing the css, js and other assets for the error page in the original service volume. But that seems messy and confusing as the html would be in a separate service volume. You could also use [regex and path rules](https://doc.traefik.io/traefik/routing/routers/) to be more precise about what queries are routed where, but that feels overly complicated and could lead to accidental routing of valid asset queries away from the original service. Instead of those options, I recommend exposing the assets to the web so that you can replace all relative paths with a URL.  
 
 
 ---
@@ -204,4 +204,4 @@ You already have a service set up to host the custom error page, with a few more
 - "traefik.http.middlewares.errorpage-headers.customResponseHeaders.X-Robots-Tag=none,noarchive,nosnippet,notranslate,noimageindex,"
 {{< /code >}}
 
-Oh and don't forget to update your settings with your DNS provider to add the subdomain.
+Oh, and don't forget to update your settings with your DNS provider to add the subdomain.

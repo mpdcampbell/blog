@@ -14,9 +14,9 @@ description = "tl;dr: [Sharry](https://github.com/eikek/sharry#readme) is a self
 ---
 
 ## Why make this?
-I got married and wanted a selfhost solution for our friends and family to upload photos and videos. A fair amount of guests were not tech savvy people so the file uploading process needed to be as user friendly as possible, in particular on mobile. [Sharry](https://github.com/eikek/sharry) fit the bill, authenticated users can generate custom urls and anyone with the url can upload files but not view them. However there was major one flaw for my use case, users can upload huge number of photos at once but you can only download the files individually. The creator [plans to add](https://github.com/eikek/sharry/issues/907) "Download as zip" as a feature, but not for at least a year.
+I got married and wanted a self host solution for our friends and family to upload photos and videos. A fair amount of guests were not tech savvy people so the file uploading process needed to be as user friendly as possible, in particular on mobile. [Sharry](https://github.com/eikek/sharry) fit the bill, authenticated users can generate custom urls and anyone with the url can upload files but not view them. However, there was major one flaw for my use case, users can upload huge number of photos at once but you can only download the files individually. The creator [plans to add](https://github.com/eikek/sharry/issues/907) "Download as zip" as a feature, but not for at least a year.
 
-I didn't want to spend 20-ish minutes clicking download a hundreds of times when I knew all the data was already on my server. So instead I spent several hours writing a bash script to cat the data chunks and assign the file extensions.
+I didn't want to spend 20-ish minutes clicking download hundreds of times when I knew all the data was already on my server. So instead, I spent several hours writing a bash script to cat the data chunks and assign the file extensions.
 
 ## How does it work?
 Sharry can be [configured](https://eikek.github.io/sharry/doc/configure) to store the files in several different formats: local filesystem, S3 storage or an SQL database. By default the files are stored in the H2 database (an SQL db) used for the service backend, but I had my instance configured to use the local filesystem. Sharry breaks each file up into binary chunks and saves them as numbered files in individual directories, as shown below.  
@@ -35,7 +35,7 @@ $:~/sharryDatabase$ find 14
 14/14Z5vVuqbDk-faqbApMaszR-jYD2tTVJFh9-WmXNkP193dx/chunk_00000004
 {{< /code >}}
 
-Sometimes there are branching midlevel directories, but the chunks are always in the lowest level directory. 
+Sometimes there are branching mid-level directories, but the chunks are always in the lowest level directory. 
 
 By concatenating the chunks in numerical order, you get a copy of the original file, just without the filename or file extension. Filename is a lost cause; well depending on the file type you could potentially assign a meaningful name from the metadata, but this script doesn't. For my use case of photos and videos, the gibberish filenames [aren't important anyway.](https://xkcd.com/349/) Newly combined files are just assigned numerically ordered names, e.g. file_001. Though to make myself feel better, the number of [padded zeroes](https://github.com/mpdcampbell/sharry-chunk-combiner/blob/84588037c139b506210183a3e65e51ca068ba0d5/chunkCombiner.sh#L81) scales with the number of files to be recombined. 
 

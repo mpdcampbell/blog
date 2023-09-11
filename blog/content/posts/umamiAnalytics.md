@@ -33,7 +33,7 @@ But why did I choose Umami over Plausible? Plausible requires two database deplo
 	
 
 ## How to set up Umami in Docker
-_Editors Note: Capitalising Docker appears to be the accepted convention online but its pretty annoying when you are used to typing the 'docker' command in lower case all the time. Also no I don't have an Editor._
+_Editor's Note: Capitalising Docker appears to be the accepted convention online but it's pretty annoying when you are used to typing the 'docker' command in lower case all the time. Also, no I don't have an Editor._
 
 [This website](https://github.com/mpdcampbell/blog) and [everything else I host](https://github.com/mpdcampbell/selfhosted-services) are running in Docker containers, so I opted to deploy Umami with Docker. Many blog tutorials correctly point out the quickest way to set up a working Umami and database combo in Docker is to clone the repository, cd in and run docker-compose.
 
@@ -43,9 +43,9 @@ cd umami
 docker-compose up
 {{< /code >}}
 
-But this is cloning an entire repository to your server just to avoid having to initialise the database. Yes, it is an extra step but the repository contains [schema files](https://github.com/mikecao/umami/tree/master/sql), so the only step you are really skipping is "making a directory to save the schema file in". You will then have to point the database container at the schema, but you need to edit the docker-compose.yml anyway so that its not using the default credentials. 
+But this is cloning an entire repository to your server just to avoid having to initialise the database. Yes, it is an extra , but the repository contains [schema files](https://github.com/mikecao/umami/tree/master/sql), so the only step you are really skipping is "making a directory to save the schema file in". You will then have to point the database container at the schema, but you need to edit the docker-compose.yml anyway so that it's not using the default credentials. 
 
-Instead of the above code snippet we can follow the below steps. Note the following is assumes you chose a Postgres database; the same procedure applies for deploying with a Mysql database just use the other schema file and be aware you need to swap out the Postgres image and variables in the docker-compose.yml with a [Mysql image](https://hub.docker.com/_/mysql/?tab=description).
+Instead of the above code snippet we can follow the below steps. Note the following is assuming you chose a Postgres database; the same procedure applies for deploying with a Mysql database just use the other schema file and be aware you need to swap out the Postgres image and variables in the docker-compose.yml with a [Mysql image](https://hub.docker.com/_/mysql/?tab=description).
 
 {{< code language="bash" title="Do this instead" expand="Show" collapse="Hide" isCollapsed="false" >}}
 #Make a directory for Umami Database
@@ -57,7 +57,7 @@ curl https://raw.githubusercontent.com/mikecao/umami/master/docker-compose.yml >
 {{< /code >}}
 
 Now we have to edit the variables in the docker-compose.yml before we can build the images. 
-The default docker-compose.yml is below and I have used an alias to represent every value you need to replace. The comments are also mine not original:
+The default docker-compose.yml is below and I have used an alias to represent every value you need to replace. The comments are also mine, not original:
 
 {{< code language="yaml" title="docker-compose.yml" expand="Show" collapse="Hide" isCollapsedi="false" >}}
 ---
@@ -97,7 +97,7 @@ Quick explainer through each variable that needs changed.
 openssl rand -base64 32
 {{< /code >}}
 
-Once the docker-compose.yml file has been changed you can start up your Umami application:
+Once the docker-compose.yml file has been changed, you can start up your Umami application:
 
 {{< code language="bash" title="Start up containers" expand="Show" collapse="Hide" isCollapsed="false" >}}
 #If in same directory as the docker-compose.yml file
@@ -128,7 +128,7 @@ Umami will prompt you to add a website. Input your website name and address, and
 
 To expose your server you could just open port 3000 on your router, which will work, but exposing a direct public pathway to your application with zero security implemented is not recommended. The better approach would be to set up a subdomain on your website and use a reverse proxy to route and filter requests for that subdomain to your Umami instance. 
 
-I'm going to gloss over this crucial step in the Umami set up and assume if you are looking to self host web analytics, you already self host a website and have a working reverse proxy configuration. Reverse proxy set up is a large tutorial in an of itself. If you don't have an existing configuration, I recommend [Traefik](https://github.com/traefik/traefik#readme) as it's [what I use](https://github.com/mpdcampbell/selfhosted-services/blob/main/docker-compose-traefik.yml). But for immediate results, [this Umami tutorial](https://www.digitalocean.com/community/tutorials/how-to-install-umami-web-analytics-software-on-ubuntu-20-04#step-2-installing-and-configuring-nginx) covers set up of a Nginx web server and adding an SSL cert so your Umami subdomain is HTTPS. Though note the Nginx web server is not deployed in Docker, and long term you will want to look into [security headers](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers).
+I'm going to gloss over this crucial step in the Umami set up and assume that if you are looking to self host web analytics, you already self host a website and have a working reverse proxy configuration. Reverse proxy set up is a large tutorial in an of itself. If you don't have an existing configuration, I recommend [Traefik](https://github.com/traefik/traefik#readme) as it's [what I use](https://github.com/mpdcampbell/selfhosted-services/blob/main/docker-compose-traefik.yml). But for immediate results, [this Umami tutorial](https://www.digitalocean.com/community/tutorials/how-to-install-umami-web-analytics-software-on-ubuntu-20-04#step-2-installing-and-configuring-nginx) covers set up of a Nginx web server and adding an SSL cert so your Umami subdomain is HTTPS. Though note the Nginx web server is not deployed in Docker, and long term you will want to look into [security headers](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers).
 
 #### How to actually do the tracking
 As outlined in the [Umami docs](https://umami.is/docs/collect-data), if you click on "Get tracking code" you get a line of HTML to copy into the \<head\> section of your website. However, by default the tracking code does not include the "data-do-not-track" flag, meaning by default Umami will ignore any [Do Not Track HTTP requests](https://en.wikipedia.org/wiki/Do_Not_Track). I strongly recommend you add this line to respect users wishes, see data-do-not-track usage below:
@@ -149,7 +149,7 @@ As well as analytics of general visitors, you can track [specific events](https:
 {{< /code >}}
 
 ## CORS and CSP changes needed for Umami
-Long time readers of codeslikeaduck (which thanks to [Umami](https://umami.codeslikeaduck.com/share/Ljt3LRkD/codeslikeaduck) I now know don't exist) will know the importance of a strong [Content Security Policy](https://www.codeslikeaduck.com/posts/quickcspsetup/) (CSP). Also important for a secure website is adding headers to define [Cross-Origin Resource Sharing](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) (CORS) parameters. If you have CSP and CORS headers set on your website, when you add the tracking code snippets it probably wont work. That's good news, it means your site wont run random scripts, but we need to add some exceptions for Umami. 
+Long time readers of codeslikeaduck (which thanks to [Umami](https://umami.codeslikeaduck.com/share/Ljt3LRkD/codeslikeaduck) I now know don't exist) will know the importance of a strong [Content Security Policy](https://www.codeslikeaduck.com/posts/quickcspsetup/) (CSP). Also important for a secure website is adding headers to define [Cross-Origin Resource Sharing](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) (CORS) parameters. If you have CSP and CORS headers set on your website, when you add the tracking code snippets it probably won't work. That's good news, it means your site won't run random scripts, but we need to add some exceptions for Umami. 
 
 Below is a summary of the changes I had to make so that Umami could function, link to the [full docker-compose.yml](https://github.com/mpdcampbell/blog/blob/master/docker-compose-blog.yml).
 
@@ -161,7 +161,7 @@ Below is a summary of the changes I had to make so that Umami could function, li
 
 #### Website being tracked: CSP script-src and content-src
 
-The [script-src](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/script-src) flag dictates the allowed sources for any Javascript and [connect-src](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/connect-src) flag dictates the URLs that can be connections can be made to as part of a running script. You need to add the subdomain that the Umami instance is hosted at to both so that user's browser can download the script pointed to by the tracking code, and then send the data back to Umami. See below the changes I made, formatted for readability, for the line in the full [docker-compose.yml](https://github.com/mpdcampbell/blog/blob/11a0f8f51f6c571217e383339111e11d1b1b82b0/docker-compose-blog.yml#L39)
+The [script-src](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/script-src) flag dictates the allowed sources for any Javascript and [connect-src](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/connect-src) flag dictates the URLs that can be connections can be made to as part of a running script. You need to add the subdomain that the Umami instance is hosted at to both so that the user's browser can download the script pointed to by the tracking code, and then send the data back to Umami. See below the changes I made, formatted for readability, for the line in the full [docker-compose.yml](https://github.com/mpdcampbell/blog/blob/11a0f8f51f6c571217e383339111e11d1b1b82b0/docker-compose-blog.yml#L39)
 
 {{< code language="diff yml" title="Tracked website CSP change" expand="Show" collapse="Hide" isCollapsed="false" >}}
 traefik.http.middlewares.blog-headers.headers.contentsecuritypolicy=
