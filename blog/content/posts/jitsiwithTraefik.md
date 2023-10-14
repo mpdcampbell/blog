@@ -76,6 +76,7 @@ services:
     image: jitsi/web:stable-8719
     restart: unless-stopped
     volumes:
+# ${CONFIG} is a bash alias, add to your system env or replace with directory path.
       - ${CONFIG}/web:/config:Z
     environment:
       - PUBLIC_URL
@@ -131,7 +132,6 @@ services:
     volumes:
       - ${CONFIG}/jvb:/config:Z
     environment:
-# JVB_ADVERTISE_IPS is only required if your server is behind a NAT
       - JVB_ADVERTISE_IPS
       - JVB_AUTH_PASSWORD
       - PUBLIC_URL
