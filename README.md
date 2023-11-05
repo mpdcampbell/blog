@@ -5,8 +5,11 @@
 - An [Umami](https://github.com/mikecao/umami#readme) instance runs alongside for web analytics, [viewable here](https://umami.codeslikeaduck.com/share/Ljt3LRkD/codeslikeaduck).</br>
 - HTTP status errors are routed to a seperate [nginx](https://hub.docker.com/_/nginx) instance that serves one of two [404 pages](errorPage/html).</br>
 
-<br />
+### Network Diagram
 
+![Diagram showing request flow for codeslikeaduck.com](blogNetwork.png)
+
+<br>
 
 ## License
 
