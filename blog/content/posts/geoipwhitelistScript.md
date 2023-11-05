@@ -26,7 +26,7 @@ But the problem is that to minimise bandwidth usage Cloudflare's terms of servic
 
 ---
 
-_A quick Traefik explainer: [Traefik](https://github.com/traefik/traefik#readme) is a reverse-proxy, it sits between your server and incoming traffic and can route incoming HTTP requests to various services running on the server depending on rules you set. Between entry to Traefik and reaching the service you can route the request through middlewares, where the http request is changed or tested against rules of your choice. See [handy diagram](https://doc.traefik.io/traefik/middlewares/overview/). This blog post won't be useful to you if you don't have Traefik set up already._
+_A quick Traefik explainer: [Traefik](https://github.com/traefik/traefik#readme) is a reverse-proxy, it sits between your server and incoming traffic and can route incoming HTTP requests to various services running on the server depending on rules you set. Between entry to Traefik and reaching the service you can route the request through middlewares, where the http request is changed or tested against rules of your choice. See [handy diagram](https://doc.traefik.io/traefik/middlewares/overview/). This blog post won't be useful to you if you don't have Traefik set up already._ 
 
 ---
 
