@@ -1,3 +1,4 @@
+#version: "3.6"
 
 ############# 
 networks:
@@ -71,7 +72,7 @@ services:
       # Errorpage-redirect middleware
         - "traefik.http.middlewares.errorpage-redirect.errors.status=400-599"
         - "traefik.http.middlewares.errorpage-redirect.errors.service=errorpage-svc"
-        - "traefik.http.middlewares.errorpage-redirect.errors.query=/404.html" #/{status}.html"
+        - "traefik.http.middlewares.errorpage-redirect.errors.query=/404.html"
       ## HTTP Services
         - "traefik.http.routers.errorpage-rtr.service=errorpage-svc"
         - "traefik.http.services.errorpage-svc.loadbalancer.server.port=${ERRORPAGE_PORT}"
@@ -95,7 +96,7 @@ services:
         - TZ
 
     umami:
-      image: ghcr.io/mikecao/umami:postgresql-v1.40.0
+      image: docker.umami.dev/umami-software/umami:postgresql-v1.40.0
       container_name: umami
       restart: unless-stopped
       networks:
