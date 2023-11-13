@@ -5,7 +5,7 @@ keywords = "traefik jitsi docker"
 description = "tl;dr: [Jitsi](https://jitsi.github.io/handbook/docs/intro) is effectively open source Zoom that you can self-host. This post describes how to get Jitsi working behind Traefik."
 +++
 
-> tl;dr: [Jitsi](https://jitsi.github.io/handbook/docs/intro) is effectively open source Zoom that you can self host. This post describes how to get Jitsi working behind Traefik.
+> tl;dr: [Jitsi](https://jitsi.github.io/handbook/docs/intro) is effectively open source Zoom that you can self-host. This post describes how to get Jitsi working behind Traefik.
 
 ## Contents
 - [What](#what)  
@@ -19,19 +19,19 @@ description = "tl;dr: [Jitsi](https://jitsi.github.io/handbook/docs/intro) is ef
 ---
 
 ## What
-[Jitsi](https://jitsi.github.io/handbook/docs/intro) describes itself as video conferencing solution, I'd describe it as open source Zoom. But crucially, as FOSS, Jitsi includes the same features as enterprise Zoom for free. If you don't want to self host (why are you reading this), then you can use their [official instance](https://meet.jit.si/) for free. Unlike Zoom, there are no time limits.
+[Jitsi](https://jitsi.github.io/handbook/docs/intro) describes itself as video conferencing solution, I'd describe it as open source Zoom. But crucially, as FOSS, Jitsi includes the same features as enterprise Zoom for free. If you don't want to self-host (why are you reading this), then you can use their [official instance](https://meet.jit.si/) for free. Unlike Zoom, there are no time limits.
 
 ## Why
 During the pandemic I hosted Jitsi as a Zoom alternative for the obligatory friend group pub quiz. Recently I hadn't used it for over a year and, after updating to the latest version, I found my instance was broken. Attempting to set Jitsi up again from scratch, I couldn't find a straight forward "just do this" guide that worked with Traefik. There is extensive [official documentation](https://jitsi.github.io/handbook/docs/devops-guide/devops-guide-docker/) on hosting with Docker in general, including [guidance](https://jitsi.github.io/handbook/docs/devops-guide/devops-guide-docker/#running-behind-a-reverse-proxy) if you are using Nginx or Apache as a reverse proxy. But unfortunately no lazy copy-paste snippets for Traefik.
 
-There is an [example docker-compose.yml](https://github.com/jitsi-contrib/jitsi-traefik/tree/main/traefik-v2) for Traefik on the third-party contribution repo, but as of writing it's two years old and didn't work when I blindly followed it. Also, among the docker repository issues there is a detailed [step by step guide](https://github.com/jitsi/docker-jitsi-meet/issues/1271#issuecomment-1113991933) from a user on how they got their Jitsi instance working behind Traefik, but unfortunately this didn't work for me either.
+There is an [example docker-compose.yml](https://github.com/jitsi-contrib/jitsi-traefik/tree/main/traefik-v2) for Traefik on the third-party contribution repo, but as of writing its two years old and didn't work when I blindly followed it. Also, among the docker repository issues there is a detailed [step-by-step guide](https://github.com/jitsi/docker-jitsi-meet/issues/1271#issuecomment-1113991933) from a user on how they got their Jitsi instance working behind Traefik, but unfortunately this didn't work for me either.
 
-_Editor's Note: In hindsight, the jitsi-contrib [example](https://github.com/jitsi-contrib/jitsi-traefik/tree/main/traefik-v2) should work fine, it was just not sufficiently idiotproof for me as it is missing some necessary extra config steps to do with Traefik itself. Confusingly, these extra steps are included in the instructions from the [github issue](https://github.com/jitsi/docker-jitsi-meet/issues/1271#issuecomment-1113991933), and should work, but didn't. I'm not sure why, maybe a mismatch with Traefik versions or the .env.example variables? It is the only file they didn't include copies of._
+_Editor's Note: In hindsight, the jitsi-contrib [example](https://github.com/jitsi-contrib/jitsi-traefik/tree/main/traefik-v2) should work fine, it was just not sufficiently idiotproof for me as it is missing some necessary extra config steps to do with Traefik itself. Confusingly, these extra steps are included in the instructions from the [GitHub issue](https://github.com/jitsi/docker-jitsi-meet/issues/1271#issuecomment-1113991933), and should work, but didn't. I'm not sure why, maybe a mismatch with Traefik versions or the .env.example variables? It is the only file they didn't include copies of._
 
 _Regardless, both example files contain a lot of extraneous lines you don't need just to get Jitsi working, so I think following the below simpler guide is worthwhile for new users._
 
 ## How
-This guide assumes you are already using Traefik as a reverse proxy and explains how to get Jitsi working behind it. It doesn't explain how to set up Traefik from scratch. Also, this guide is confirmed working with Jitsi build stable-8719 and Traefik version 2.9.1. In theory it should continue to work provided no breaking changes are announced. For Jitsi there is this [brilliant website](https://shawnchin.github.io/jitsi-config-differ/) to compare builds to check for any potential breaking changes in configuration files.
+This guide assumes you are already using Traefik as a reverse proxy and explains how to get Jitsi working behind it. It doesn't explain how to set up Traefik from scratch. Also, this guide is confirmed working with Jitsi build stable-8719 and Traefik version 2.9.1. In theory, it should continue to work provided no breaking changes are announced. For Jitsi there is this [brilliant website](https://shawnchin.github.io/jitsi-config-differ/) to compare builds to check for any potential breaking changes in configuration files.
 
 You need the following ports on your router/firewall open and pointed towards the server which is hosting Traefik:
  - **80/TCP** the default port for HTTP traffic, (your Traefik instance should already be set up to [redirect HTTP requests](https://doc.traefik.io/traefik/middlewares/http/redirectscheme/))
@@ -239,7 +239,7 @@ The video feeds on my Jitsi instance were constantly turning off with the JVB co
 
 But this didn't make sense, I should have plenty of bandwidth. It turns out I was able to fix this behaviour by disabling simulcast. But fair warning, this is **NOT recommended** by the veterans in the Jitsi [community forum](https://community.jitsi.org/).
 
-By default Jitsi measures the network connection between clients and will auto-scale the video quality, including turning it off, depending on available bandwidth and if the streams are in tile view vs fullscreen. Disabling simulcast will [disable this behaviour](https://community.jitsi.org/t/performance-settings-in-high-quality/121812/2). The [result](https://community.jitsi.org/t/how-are-video-streams-handled-with-disabling-simulcast/125120) is the full video quality will be streamed from all clients to all clients, all the time. This is a lot of bandwidth that needs to run through the JVB on your server. Intuitively, choosing to disable simulcast is removing functionality and wasting bandwidth.
+By default Jitsi measures the network connection between clients and will auto-scale the video quality, including turning it off, depending on available bandwidth and if the streams are in tile view vs full screen. Disabling simulcast will [disable this behaviour](https://community.jitsi.org/t/performance-settings-in-high-quality/121812/2). The [result](https://community.jitsi.org/t/how-are-video-streams-handled-with-disabling-simulcast/125120) is the full video quality will be streamed from all clients to all clients, all the time. This is a lot of bandwidth that needs to run through the JVB on your server. Intuitively, choosing to disable simulcast is removing functionality and wasting bandwidth.
 
 With that warning said, I found the auto-scaling was overly aggressive for some reason and kept turning off video feeds. Also, I should have plenty of bandwidth available for the small games nights I host, and my friends also have decent internet connections. So, rather than debug this weird behaviour it was [easier](https://xkcd.com/1495/) to take the brute-force approach and turn off the video auto-scaling entirely.
 
@@ -281,7 +281,7 @@ This is an odd one. At one stage in trying to get Jitsi working, this warning me
 WARNING: Invalid message received (Parameter specified as non-null is null: method org.jitsi.videobridge.message.EndpointStats.put, parameter value (through reference chain: org.jitsi.videobridge.message.EndpointStats["connectionQuality"]):...
 {{< /code >}}
 
-Searching, I found [a fix](https://community.jitsi.org/t/jvb-error-invalid-message-received-parameter-specified-as-non-null-is-null/106505) for the issue on the Jitsi community forum, and adding it to my configuration stopped the issue. However, later when writing this post I removed the fix to try and recreate the error message and wasn't able to. I removed my Jitsi containers, images, volumes and deleted all files within ${CONFIG} to do a fresh install, but couldn't get the error to happen again.
+Searching, I found [a fix](https://community.jitsi.org/t/jvb-error-invalid-message-received-parameter-specified-as-non-null-is-null/106505) for the issue on the Jitsi community forum, and adding it to my configuration stopped the issue. However, later when writing this post I removed the fix to try to recreate the error message and wasn't able to. I removed my Jitsi containers, images, volumes and deleted all files within ${CONFIG} to do a fresh install, but couldn't get the error to happen again.
 
 So I don't understand what's going on and really this could be a complete red herring, but in case you are seeing the same issue I've included the fix here. To apply the fix you need to add the below environment variables to the jitsi-web container in the docker-compose.yml, and set their values as shown in the .env file.
 
@@ -330,12 +330,12 @@ docker-compose -f PATH_TO_FILE/docker-compose.yml up -d
 {{< /code >}}
 
 ## Customising Jitsi settings
-Okay so your instance is working, now you want to play with all the options! A huge range of things can be controlled via environment variables. To see the full list you can check the [example docker-compose.yml](https://github.com/jitsi/docker-jitsi-meet/blob/master/docker-compose.yml) from the Jitsi Github repo. I left the majority of these out of my example as you don't need them just to get Jitsi up and running.
+Okay so your instance is working, now you want to play with all the options! A huge range of things can be controlled via environment variables. To see the full list you can check the [example docker-compose.yml](https://github.com/jitsi/docker-jitsi-meet/blob/master/docker-compose.yml) from the Jitsi GitHub repo. I left the majority of these out of my example as you don't need them just to get Jitsi up and running.
 
 #### Disable third party server requests
 There are even more settings that can't be controlled via the docker-compose.yml. These are setting which are configurable in the main non-docker build of Jitsi, but the necessary code hasn't been added to the docker image to allow them to be set via docker-compose. These settings are defined within config.js file. In our dockerised version of Jitsi this file is found at the Jitsi-web container config path, in our example case ${CONFIG}/web/config.js. However, by default it won't list every available setting that the non-docker build file contains.
 
-You can view the full range of available settings at the [non-docker build repo](https://github.com/jitsi/jitsi-meet/blob/master/config.js) and then decide if you wish to change any in your Jitsi instance. One in particular I'd recommend is ``disableThirdPartyRequests``. Privacy is one of the main reasons to self host your instance, this setting ensures no external third party servers are contacted.
+You can view the full range of available settings at the [non-docker build repo](https://github.com/jitsi/jitsi-meet/blob/master/config.js) and then decide if you wish to change any in your Jitsi instance. One in particular I'd recommend is ``disableThirdPartyRequests``. Privacy is one of the main reasons to self-host your instance, this setting ensures no external third party servers are contacted.
 
 To set this you need to create a file in the same directory as config.js called custom-config.js and define the new setting there. As described in the [official documentation](https://jitsi.github.io/handbook/docs/devops-guide/devops-guide-docker#jitsi-meet-configuration), the config.js file is recreated on every restart but the custom-config.js will remain static and be appended to config.js on start up. If you are only changing this one setting, your file only needs the one line.
 

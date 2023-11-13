@@ -17,7 +17,7 @@ description = "tl;dr: If you use Traefik, this [Docker container](https://github
 ---
 
 ### Why use a GeoIP filter?
-The basic idea is that the less of the world wide web that can access your site/online service, the less of it can attack you.
+The basic idea is that the less of the Web that can access your site/online service, the less of it can attack you.
 
 That sounds paranoid but there really is an endless stream of bots out there prodding every URL and IP for something exploitable. According to this [2022 report](https://www.imperva.com/resources/resource-library/reports/bad-bot-report/) (enter an example.com email to download), bad bots account for [~28%](https://xkcd.com/632/) of all traffic. And if your website is as [popular](https://umami.codeslikeaduck.com/share/Ljt3LRkD/codeslikeaduck) as this blog, then a lot more bots are visiting than humans.
 
@@ -36,7 +36,7 @@ The container is basically a bash script on top of a lightweight Nginx web serve
 3. MaxMind maintain a database of geolocation IPs called [GeoLite2](https://dev.maxmind.com/geoip/geolite2-free-geolocation-data), which you can download with a free user account.
 
 #### Short version
-The script downloads, formats and saves local copies of the GeoLite2 databases. It then writes an IPlist.conf file, extracts IPs that correspond to defined locations, and appends them to the file. Finally, it writes a new default.conf, setting Nginx to check the originating IP of all incoming requests against the list and return a 2XX or 4XX status code as appropriate. Then if you apply a forwardAuth middleware to a service router in Traefik, HTTP requests will only be passed on to the service if they are/aren't in the allowlist/blocklist. Also a cron job updates the IPlist.conf when the GeoLite2 database updates.
+The script downloads, formats and saves local copies of the GeoLite2 databases. It then writes an IPlist.conf file, extracts IPs that correspond to defined locations, and appends them to the file. Finally, it writes a new default.conf, setting Nginx to check the originating IP of all incoming requests against the list and return a 2XX or 4XX status code as appropriate. Then, if you apply a forwardAuth middleware to a service router in Traefik, HTTP requests will only be passed on to the service if they are/aren't in the allowlist/blocklist. Also, a cron job updates the IPlist.conf when the GeoLite2 database updates.
 
 #### Long version
 The script first checks what country or sublocation variables have been defined. These can be defined either by [ISO 3166-1](https://en.wikipedia.org/wiki/SO_3166-1_alpha-2#Officially_assigned_code_elements) country codes, [ISO 3166-2](https://en.wikipedia.org/wiki/ISO_3166-2#Current_codes) subdivision codes, or by place names. For place names, to avoid false positives there is a [larger-region:location](https://github.com/mpdcampbell/traefik-geoip-filter#sub_codes) syntax available. MaxMind maintains separate GeoIP databases for countries and locations smaller than countries (which they call their City database even though it includes states, towns, counties…) and the script only downloads both databases if it needs to.
@@ -49,12 +49,12 @@ Next, the script writes the main Nginx configuration file (default.conf), so tha
 
 At this point the container is a working GeoIP authentication server. Within Traefik a forwardAuth middleware can be defined which points at the container, and is then added to any service [router](https://doc.traefik.io/traefik/routing/routers/). Then any HTTP requests that Traefik would typically route to the service, will first be passed to GeoIP authentication server. If the authentication server returns a 2XX status code, Traefik will pass the HTTP request on to the service but for any other status code (e.g. 404) the HTTP request ends there and the server response is returned to the user.
 
-Also there is the self updating. By default the container adds a cron job to re-run the bash script at 6 AM UTC on Wednesdays and Saturdays. This is because the MaxMind Geolite 2 country and city databases [update](https://support.maxmind.com/hc/en-us/articles/4408216129947) every Tuesday and Friday. The cron expression, and timezone, can be set as environment variables.
+Also, there is the self updating. By default, the container adds a cron job to re-run the bash script at 6 AM UTC on Wednesdays and Saturdays. This is because the MaxMind Geolite 2 country and city databases [update](https://support.maxmind.com/hc/en-us/articles/4408216129947) every Tuesday and Friday. The cron expression, and timezone, can be set as environment variables.
 
 ### How do I use it?
-I recommend visiting the [Github page](https://github.com/mpdcampbell/traefik-geoip-filter) to see details on all available environment variables, both mandatory and optional, along with an explanation of how to use the _larger-region_:_location_ syntax to define locations. But for a quick start:  
+I recommend visiting the [GitHub page](https://github.com/mpdcampbell/traefik-geoip-filter) to see details on all available environment variables, both mandatory and optional, along with an explanation of how to use the _larger-region_:_location_ syntax to define locations. But for a quick start:  
 
-1. Make a free [MaxMind account](https://www.maxmind.com/en/geolite2/signup) to get a license key.  
+1. Make a free [MaxMind account](https://www.maxmind.com/en/geolite2/signup) to get a licence key.  
 2. Download [docker-compose.example.yml](https://github.com/mpdcampbell/traefik-geoip-filter/blob/main/docker-compose.example.yml) and add the lines to your Traefik config as instructed.  
 3. Replace the dummy key in the example.  
 4. Replace the location variables: countries go in COUNTRY_CODES, locations smaller than countries go in SUB_CODES.  

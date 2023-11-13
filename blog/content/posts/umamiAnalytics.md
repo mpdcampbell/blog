@@ -22,14 +22,14 @@ description = "tl;dr: [Umami](https://umami.is/) is a simple and privacy-focused
 
 I'm interested to see if anyone ever visits this site, or if it really is just an elaborate notepad. 
 Codeslikeaduck is already hosted behind Cloudflare and Traefik reverse proxies, each with some level of traffic logging functionality, but neither is really fit for my purpose. 
-Traefik is set up to record your typical backend access logs for security purposes and while you could filter out web-analytics style information from this, I think its best practice to keep the security and web-analytics separate. Cloudflare's proxy does include free web analytics but it falls short in many ways, helpfully [outlined](https://plausible.io/vs-cloudflare-web-analytics) by web analytics competitor Plausible, but the main flaw for me is that it doesn't filter out bot traffic. 
+Traefik is set up to record your typical backend access logs for security purposes and while you could filter out web-analytics style information from this, I think its best practice to keep the security and web-analytics separate. Cloudflare's proxy does include free web analytics, but it falls short in many ways, helpfully [outlined](https://plausible.io/vs-cloudflare-web-analytics) by web analytics competitor Plausible, but the main flaw for me is that it doesn't filter out bot traffic. 
 If you go by Cloudflare this site has had 42 visitors from a dozen countries in the last 24 hours.       
 
 ## Why Umami
 
-Looking into self-hosted web analytics, there are [a lot of options](https://alternativeto.net/software/google-analytics/?license=opensource&platform=self-hosted). The two most popular seem to be [Matomo](https://matomo.org/) and [Plausible](https://plausible.io/). Matomo is a powerful google analytics alternative but overly complicated for my needs, see [live demo](https://demo.matomo.cloud/?menu). Plausible, on the other hand, seems ideal. It's lightweight, designed with a privacy focus, and has a nice simple single page UI (see [live demo](https://plausible.io/plausible.io)). Umami is as far as I can tell very similar to Plausible (see [live demo](https://app.umami.is/share/8rmHaheU/umami.is)) but with a slightly different focus, Plausible is an open source SaaS product with a free self-host option whereas Umami has no SaaS implementation. 
+Looking into self-hosted web analytics, there are [a lot of options](https://alternativeto.net/software/google-analytics/?license=opensource&platform=self-hosted). The two most popular options seem to be [Matomo](https://matomo.org/) and [Plausible](https://plausible.io/). Matomo is a powerful google analytics alternative but overly complicated for my needs, see [live demo](https://demo.matomo.cloud/?menu). Plausible, on the other hand, seems ideal. It's lightweight, designed with a privacy focus, and has a nice simple single page UI (see [live demo](https://plausible.io/plausible.io)). Umami is as far as I can tell very similar to Plausible (see [live demo](https://app.umami.is/share/8rmHaheU/umami.is)) but with a slightly different focus, Plausible is an open source SaaS product with a free self-host option whereas Umami has no SaaS implementation. 
 
-But why did I choose Umami over Plausible? Plausible requires two database deployments, a Postgres database for user data and a Clickhouse database for the analytics data. Umami only requires one database, Postgres or Mysql.
+But why did I choose Umami over Plausible? Plausible requires two database deployments, a Postgres database for user data and a Clickhouse database for the analytics data. Umami only requires one database, Postgres or MySQL.
 	
 
 ## How to set up Umami in Docker
@@ -43,9 +43,9 @@ cd umami
 docker-compose up
 {{< /code >}}
 
-But this is cloning an entire repository to your server just to avoid having to initialise the database. Yes, it is an extra , but the repository contains [schema files](https://github.com/mikecao/umami/tree/master/sql), so the only step you are really skipping is "making a directory to save the schema file in". You will then have to point the database container at the schema, but you need to edit the docker-compose.yml anyway so that it's not using the default credentials. 
+But this is cloning an entire repository to your server just to avoid having to initialise the database. Yes, initialising is an extra step, but the repository contains [schema files](https://github.com/mikecao/umami/tree/master/sql), so the only step you are really skipping is "making a directory to save the schema file in". You will then have to point the database container at the schema, but you need to edit the docker-compose.yml anyway so that it's not using the default credentials. 
 
-Instead of the above code snippet we can follow the below steps. Note the following is assuming you chose a Postgres database; the same procedure applies for deploying with a Mysql database just use the other schema file and be aware you need to swap out the Postgres image and variables in the docker-compose.yml with a [Mysql image](https://hub.docker.com/_/mysql/?tab=description).
+Instead of the above code snippet we can follow the below steps. Note the following is assuming you chose a Postgres database; the same procedure applies for deploying with a MySQL database just use the other schema file and be aware you need to swap out the Postgres image and variables in the docker-compose.yml with a [Mysql image](https://hub.docker.com/_/mysql/?tab=description).
 
 {{< code language="bash" title="Do this instead" expand="Show" collapse="Hide" isCollapsed="false" >}}
 #Make a directory for Umami Database
@@ -57,7 +57,7 @@ curl https://raw.githubusercontent.com/mikecao/umami/master/docker-compose.yml >
 {{< /code >}}
 
 Now we have to edit the variables in the docker-compose.yml before we can build the images. 
-The default docker-compose.yml is below and I have used an alias to represent every value you need to replace. The comments are also mine, not original:
+The default docker-compose.yml is below, and I have used an alias to represent every value you need to replace. The comments are also mine, not original:
 
 {{< code language="yaml" title="docker-compose.yml" expand="Show" collapse="Hide" isCollapsedi="false" >}}
 ---
@@ -124,11 +124,11 @@ The first thing you should do now is change the default username (admin) and pas
 ## How to start tracking your site
 
 #### First get Umami online
-Umami will prompt you to add a website. Input your website name and address, and then click the "Get tracking code" button to get the tracking code. This is where you realise that an Umami instance that is only running locally is not very useful. The "tracking code" is a line of HTML telling the users browser to download the tracking script from our Umami instance. If the Umami instance isn't exposed to the internet then the browser can't grab the script and send any analytics data.
+Umami will prompt you to add a website. Input your website name and address, and then click the "Get tracking code" button to get the tracking code. This is where you realise that an Umami instance that is only running locally is not very useful. The "tracking code" is a line of HTML telling the user's browser to download the tracking script from our Umami instance. If the Umami instance isn't exposed to the internet then the browser can't grab the script and send any analytics data.
 
 To expose your server you could just open port 3000 on your router, which will work, but exposing a direct public pathway to your application with zero security implemented is not recommended. The better approach would be to set up a subdomain on your website and use a reverse proxy to route and filter requests for that subdomain to your Umami instance. 
 
-I'm going to gloss over this crucial step in the Umami set up and assume that if you are looking to self host web analytics, you already self host a website and have a working reverse proxy configuration. Reverse proxy set up is a large tutorial in an of itself. If you don't have an existing configuration, I recommend [Traefik](https://github.com/traefik/traefik#readme) as it's [what I use](https://github.com/mpdcampbell/selfhosted-services/blob/main/docker-compose-traefik.yml). But for immediate results, [this Umami tutorial](https://www.digitalocean.com/community/tutorials/how-to-install-umami-web-analytics-software-on-ubuntu-20-04#step-2-installing-and-configuring-nginx) covers set up of a Nginx web server and adding an SSL cert so your Umami subdomain is HTTPS. Though note the Nginx web server is not deployed in Docker, and long term you will want to look into [security headers](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers).
+I'm going to gloss over this crucial step in the Umami set up and assume that if you are looking to self-host web analytics, you already self-host a website and have a working reverse proxy configuration. Reverse proxy set up is a large tutorial in an of itself. If you don't have an existing configuration, I recommend [Traefik](https://github.com/traefik/traefik#readme) as it's [what I use](https://github.com/mpdcampbell/selfhosted-services/blob/main/docker-compose-traefik.yml). But for immediate results, [this Umami tutorial](https://www.digitalocean.com/community/tutorials/how-to-install-umami-web-analytics-software-on-ubuntu-20-04#step-2-installing-and-configuring-nginx) covers set up of a Nginx web server and adding an SSL cert so that your Umami subdomain is HTTPS. Though note the Nginx web server is not deployed in Docker, and long term you will want to look into [security headers](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers).
 
 #### How to actually do the tracking
 As outlined in the [Umami docs](https://umami.is/docs/collect-data), if you click on "Get tracking code" you get a line of HTML to copy into the \<head\> section of your website. However, by default the tracking code does not include the "data-do-not-track" flag, meaning by default Umami will ignore any [Do Not Track HTTP requests](https://en.wikipedia.org/wiki/Do_Not_Track). I strongly recommend you add this line to respect users wishes, see data-do-not-track usage below:
@@ -141,7 +141,7 @@ As outlined in the [Umami docs](https://umami.is/docs/collect-data), if you clic
 ></script>
 {{< /code >}}
 
-As well as analytics of general visitors, you can track [specific events](https://developer.mozilla.org/en-US/docs/Web/Events) such as a user clicking on a link. The [Umami docs](https://umami.is/docs/track-events) for this are clear and concise (unlike anything I write) so follow those. But for an example, below is the code change I made to track when users click the link to my [Github profile](https://github.com/mpdcampbell) in the website footer. [Full html file here](https://github.com/mpdcampbell/blog/blob/master/blog/themes/terminal/layouts/partials/footer.html#L4).
+As well as analytics of general visitors, you can track [specific events](https://developer.mozilla.org/en-US/docs/Web/Events) such as a user clicking on a link. The [Umami docs](https://umami.is/docs/track-events) for this are clear and concise (unlike anything I write) so follow those. But for an example, below is the code change I made to track when users click the link to my [GitHub profile](https://github.com/mpdcampbell) in the website footer. [Full HTML file here](https://github.com/mpdcampbell/blog/blob/master/blog/themes/terminal/layouts/partials/footer.html#L4).
 
 {{< code language="diff yml" title="Tracking click event" expand="Show" collapse="Hide" isCollapsed="false" >}}
 - <span><a href="https://github.com/mpdcampbell">{{ partial "inline-svg" "octocat"}}</a></span>

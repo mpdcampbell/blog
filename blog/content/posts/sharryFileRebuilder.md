@@ -2,10 +2,10 @@
 title = "Rebuild files from a local Sharry database"
 date = "2022-11-20"
 keywords = ["sharry", "bash", "MIME type", "selfhost"]
-description = "tl;dr: [Sharry](https://github.com/eikek/sharry#readme) is a selfhost file upload-download service, it supports grouped uploads of hundreds of files, but only individual file downloads. This [bash script](https://github.com/mpdcampbell/sharry-chunk-combiner#readme) combines the chunks in the database to quickly rebuild local copies of the files." 
+description = "tl;dr: [Sharry](https://github.com/eikek/sharry#readme) is a self-host file upload-download service, it supports grouped uploads of hundreds of files, but only individual file downloads. This [bash script](https://github.com/mpdcampbell/sharry-chunk-combiner#readme) combines the chunks in the database to quickly rebuild local copies of the files." 
 +++
 
-> tl;dr: [Sharry](https://github.com/eikek/sharry#readme) is a selfhost file upload-download service, it supports grouped uploads of hundreds of files, but only individual file downloads. This [bash script](https://github.com/mpdcampbell/sharry-chunk-combiner#readme) combines the chunks in the database to quickly rebuild local copies of the files.
+> tl;dr: [Sharry](https://github.com/eikek/sharry#readme) is a self-host file upload-download service, it supports grouped uploads of hundreds of files, but only individual file downloads. This [bash script](https://github.com/mpdcampbell/sharry-chunk-combiner#readme) combines the chunks in the database to quickly rebuild local copies of the files.
 
 ## Contents
 - [Why make this?](#why-make-this)  
@@ -14,7 +14,7 @@ description = "tl;dr: [Sharry](https://github.com/eikek/sharry#readme) is a self
 ---
 
 ## Why make this?
-I got married and wanted a self host solution for our friends and family to upload photos and videos. A fair amount of guests were not tech savvy people so the file uploading process needed to be as user friendly as possible, in particular on mobile. [Sharry](https://github.com/eikek/sharry) fit the bill, authenticated users can generate custom urls and anyone with the url can upload files but not view them. However, there was major one flaw for my use case, users can upload huge number of photos at once but you can only download the files individually. The creator [plans to add](https://github.com/eikek/sharry/issues/907) "Download as zip" as a feature, but not for at least a year.
+I got married and wanted a self-host solution for our friends and family to upload photos and videos. A fair amount of guests were not tech-savvy people so the file uploading process needed to be as user-friendly as possible, in particular on mobile. [Sharry](https://github.com/eikek/sharry) fit the bill, authenticated users can generate custom URLs and anyone with the URL can upload files but not view them. However, there was major one flaw for my use case, users can upload huge number of photos at once but you can only download the files individually. The creator [plans to add](https://github.com/eikek/sharry/issues/907) "Download as zip" as a feature, but not for at least a year.
 
 I didn't want to spend 20-ish minutes clicking download hundreds of times when I knew all the data was already on my server. So instead, I spent several hours writing a bash script to cat the data chunks and assign the file extensions.
 
@@ -43,12 +43,12 @@ To figure out what the new file actually is, the script uses the following [file
 
 ```file -b --mime-type combinedChunks```  
 
- to identify the MIME type, e.g image/jpeg. 
+ to identify the MIME type, e.g. image/jpeg. 
  
  This is compared to a [dictionary](https://www.delftstack.com/howto/linux/bash-associative-array/) of MIME-type|file-extension key|value pairs to get the corresponding file extension. The dictionary is saved in a large [text file](https://github.com/mpdcampbell/sharry-chunk-combiner/blob/master/extByMimeType.txt) that read in by the script, the values for which were taken from this [helpful list](https://www.freeformatter.com/mime-types-list.html). The dictionary is probably not complete, running tests on random files I found some missing MIME type/sub-type combinations I had to manually add, but at 705 entries it should cover most files. If the file extension is found it is appended to the name of the newly combined file, and the file is moved to the designated output directory.
 
 ## How do you use it?
-The [script](https://github.com/mpdcampbell/sharry-chunk-combiner/blob/master/chunkCombiner.sh) and [dictionary](https://github.com/mpdcampbell/sharry-chunk-combiner/blob/master/extByMimeType.txt) files need to be saved within the same directory, then the script can be ran with the following arguments:
+The [script](https://github.com/mpdcampbell/sharry-chunk-combiner/blob/master/chunkCombiner.sh) and [dictionary](https://github.com/mpdcampbell/sharry-chunk-combiner/blob/master/extByMimeType.txt) files need to be saved within the same directory, then the script can be started with the following arguments:
 
 ```./chunkCombiner.sh -d sharryDatabase -o outputDirectory```
 

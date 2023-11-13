@@ -22,7 +22,7 @@ If you ask online about software for self-hosting your own security cameras, you
  - [Zoneminder](https://github.com/ZoneMinder/zoneminder) (Old faithful, FOSS)
  - [Frigate](https://github.com/blakeblackshear/frigate) (Newer and shinier, FOSS)
  - Blue Iris (Paid and closed source)
- - [Shinobi](https://gitlab.com/Shinobi-Systems/Shinobi) (Open Source but mobile app behind [paid licence](https://shinobi.video/pro))  
+ - [Shinobi](https://gitlab.com/Shinobi-Systems/Shinobi) (Open Source, but mobile app behind [paid licence](https://shinobi.video/pro))  
 
 And if you are looking to set up a full fat CCTV system these are excellent options, ready to support a large array of cameras with features like object recognition, motion detection, automated recording, push notification alerts, and so on. 
 
@@ -31,10 +31,10 @@ But what if all you want is to view your cameras remotely, no fancy features, no
 You might say you can just ignore the extra features, which isn't wrong, but I say why use the wrong tool for the job? This strikes me as similar to people who host an entire [Nextcloud](https://github.com/nextcloud) instance when all they need is a basic web UI in front of their files (something like [Filestash](https://github.com/mickael-kerjean/filestash) or [Filebrowser](https://github.com/filebrowser/filebrowser)).
 
 ### Do I need a specific camera?
-Nope, get anything that has RTSP stream functionality, which is most IP cameras these days. You can ignore all the smart app features, obviously you aren't going to be using those. With the possible exception of two way audio, go2rtc does [support this](https://github.com/AlexxIT/go2rtc#two-way-audio) but my cameras don't, so I haven't tried to get it working. Also, I recommend setting up your home network to block the actual camera from the internet, your local network server can grab the video feed and relay that to go2rtc. The camera doesn't need to phone home. 
+Nope, get anything that has RTSP stream functionality, which is most IP cameras these days. You can ignore all the smart app features, obviously you aren't going to be using those. With the possible exception of two-way audio, go2rtc does [support this](https://github.com/AlexxIT/go2rtc#two-way-audio) but my cameras don't, so I haven't tried to get it working. Also, I recommend setting up your home network to block the actual camera from the internet, your local network server can grab the video feed and relay that to go2rtc. The camera doesn't need to phone home. 
 
 ### Plan your security first
-You are planning to expose a camera feed to the internet. I'm assuming if you are conscientious enough to self host then you also don't like the idea of strangers viewing the feed. All of the above camera services have username and password login screens built in, **please** do not assume you can just open a port on the router and this login screen alone will make your camera is secure. In my (only slightly paranoid) opinion, anything private hosted online needs two things, a reverse proxy and a two-factor authentication. You probably know what [Two-factor authentication](https://blog.mozilla.org/en/products/firefox/firefox-tips/what-is-2fa/) is already. A [reverse proxy](https://www.howtogeek.com/devops/what-is-a-reverse-proxy-and-how-does-it-work/) acts as a layer between the internet and your services and allows you to implement security features such as rate limiting, enforcing https, or blocking users [based on location](https://www.codeslikeaduck.com/posts/geoipwhitelistdocker/). 
+You are planning to expose a camera feed to the internet. I'm assuming if you are conscientious enough to self-host then you also don't like the idea of strangers viewing the feed. All of the above camera services have username and password login screens built in, **please** do not assume you can just open a port on the router and this login screen alone will make your camera is secure. In my (only slightly paranoid) opinion, anything private hosted online needs two things, a reverse proxy and a two-factor authentication. You probably know what [Two-factor authentication](https://blog.mozilla.org/en/products/firefox/firefox-tips/what-is-2fa/) is already. A [reverse proxy](https://www.howtogeek.com/devops/what-is-a-reverse-proxy-and-how-does-it-work/) acts as a layer between the internet and your services and allows you to implement security features such as rate limiting, enforcing https, or blocking users [based on location](https://www.codeslikeaduck.com/posts/geoipwhitelistdocker/). 
 
 ---
 
@@ -42,7 +42,7 @@ _Anything private hosted online needs two things, a reverse proxy and 2FA._
 
 ---
 
-Setting up a reverse proxy and two-factor authentication takes longer than setting up go2rtc, so it is not going to be explained in this blog post. If you haven't already got these features implemented, I recommend researching these first. For [my set up](https://github.com/mpdcampbell/selfhosted-services) I use [Authelia](https://github.com/authelia/authelia#) for 2FA and [Traefik](https://github.com/traefik/traefik) as my reverse proxy. Any reverse proxy specific configuration shown in this blog post will be for Traefik, but popular alternatives  are [Nginx](https://nginx.org/en/) and [Caddy](https://github.com/caddyserver/caddy), and alternative 2FA services are [Authentik](https://github.com/goauthentik/authentik) and [Keycloak](https://github.com/keycloak/keycloak).
+Setting up a reverse proxy and two-factor authentication takes longer than setting up go2rtc, so it is not going to be explained in this blog post. If you haven't already got these features implemented, I recommend researching these first. For [my set up](https://github.com/mpdcampbell/selfhosted-services) I use [Authelia](https://github.com/authelia/authelia) for 2FA and [Traefik](https://github.com/traefik/traefik) as my reverse proxy. Any reverse proxy specific configuration shown in this blog post will be for Traefik, but popular alternatives  are [Nginx](https://nginx.org/en/) and [Caddy](https://github.com/caddyserver/caddy), and alternative 2FA services are [Authentik](https://github.com/goauthentik/authentik) and [Keycloak](https://github.com/keycloak/keycloak).
 
 ### How to set up go2rtc
 You need two config files to get go2rtc going, the docker-compose.yml to install the service and a go2rtc.yaml file to set the settings.
@@ -97,7 +97,7 @@ The streams section is where we assign a name to the camera video feeds and tell
 - **username** is the username to access your camera on the local network (though some cameras allow you to separate RTSP authentication credentials)
 - **password** is the password to access your camera on the local network (again, unless you set a separate RTSP password)
 - **ipaddress** is the IP address of your camera on the local network, something like 192.168.1.22 Log in to your router to find this, and while you are in there you should give the camera a static IP so it doesn't change.
-- **port** is 554 for the vast majority of cameras. But if that doesn't work, Google or Ddg your camera model.
+- **port** is 554 for the vast majority of cameras. But if that doesn't work, Google or [Ddg](www.duckduckgo.com) your camera model.
 
 And I have called the camera feeds petCam1 and petCam2, but you can name these whatever you like.
 
@@ -130,7 +130,7 @@ Ok, so my whole spiel was I promised a straightforward link to your camera feeds
 
 If you check the boxes beside your camera feeds and then click on stream, it will open a new page which is just your two video streams playing. This is the simple, mobile friendly page we have been looking for. As shown in the example screenshot below, the feeds automatically scale to the screen and you can tap/click on any video feed to get pause, volume, and full screen controls. Note, rather than show my own cameras for the example screenshot, I pointed go2rtc at two clips from [Big Buck Bunny](https://peach.blender.org/about/).
 
-The URL for this page doesn't change so you can save this as a shortcut on your computer/phone home screen and the job is done! You have a one click solution to watch your pet when away.
+The URL for this page doesn't change, so you can save this as a shortcut on your computer/phone home screen and the job is done! You have a one click solution to watch your pet when away.
 
 {{< collapsable-box contentType="Screenshot" title="Go2rtc camera feeds on mobile" expand="Show" collapse="Hide" isCollapsed="false" >}}
 <img src="/img/posts/go2rtcPetCam/go2rtcVideoFeeds.png" alt="Screenshot of go2rtc camera feeds on mobile" loading="lazy"> 
@@ -242,4 +242,4 @@ go2rtc:
 
 #### But now how do I access the menu?
 
-After your "homepage-to-camera-feed-redirect" has been set up, visiting dog.domain.com obviously wont bring you to the go2rtc web UI any more. But, if you inspect the redirectRegex pattern, the redirect only applies to HTTP requests that end immediately after the domain, i.e. with no path. A request with a path after the domain won't match the regex and won't get redirected to the camera feed URL. This is where the BASE_PATH variable becomes useful. If you entered a value for BASE_PATH, e.g. /admin, now if you visit dog.domain.com/admin you will be brought to the go2rtc web UI while requests for dog.domain.com will still be redirected to the camera feed URL.
+After your "homepage-to-camera-feed-redirect" has been set up, visiting dog.domain.com obviously won't bring you to the go2rtc web UI any more. But, if you inspect the redirectRegex pattern, the redirect only applies to HTTP requests that end immediately after the domain, i.e. with no path. A request with a path after the domain won't match the regex and won't get redirected to the camera feed URL. This is where the BASE_PATH variable becomes useful. If you entered a value for BASE_PATH, e.g. /admin, now if you visit dog.domain.com/admin you will be brought to the go2rtc web UI while requests for dog.domain.com will still be redirected to the camera feed URL.

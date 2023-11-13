@@ -33,7 +33,7 @@ _A quick Traefik explainer: [Traefik](https://github.com/traefik/traefik#readme)
 ## How
 
 1. Traefik has a built-in middleware called [IPWhiteList](https://doc.traefik.io/traefik/middlewares/http/ipwhitelist/), which will only allow HTTP requests through to the service if they are in a defined list of allowed IPs. 
-2. Maxmind maintains a geolocation IP database called [GeoLite2](https://dev.maxmind.com/GeoIP/geolite2-free-geolocation-data?lang=en), which you can download with a free user account.
+2. MaxMind maintains a geolocation IP database called [GeoLite2](https://dev.maxmind.com/GeoIP/geolite2-free-geolocation-data?lang=en), which you can download with a free user account.
 
 To bridge 1 and 2 I wrote a [bash script](https://github.com/mpdcampbell/traefik-geo-ipwhitelist). The script creates a yml file defining a IPWhitelist middleware, downloads the csv version of the GeoLite2 database, extracts IPs which correspond to countries defined in the script, and appends them to the middleware. With this you can automate the adding of thousands of IPs to the whitelist. 
 

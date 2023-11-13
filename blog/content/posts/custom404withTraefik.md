@@ -60,7 +60,7 @@ General Traefik operation is that a HTTP request reaches the server entrypoint (
 With the errors middleware the original request is passed through unaltered, but when the service responds with an error status code, the errors middleware then sends a custom GET request to a separate service. The response of this separate service is then returned in response to the external request, along with the error status code.
 
 ## How to set it up in Docker
-This tutorial assumes you already have a working Traefik configuration in Docker and you just wish to add the custom error page functionality. To act as the "Service B" in the above flow diagram we can set up an [Nginx web server](https://hub.docker.com/_/nginx/) to serve the error page.  
+This tutorial assumes you already have a working Traefik configuration in Docker and you just wish to add the custom error page functionality. To act as the "Service B" in the above flow diagram we can set up a [Nginx web server](https://hub.docker.com/_/nginx/) to serve the error page.  
 
 First we need a directory to store the Nginx configuration file (default.conf), and the error page html we want to serve.
 {{< code language="bash" title="Create directory" expand="Show" collapse="Hide" isCollapsed="false" >}}
@@ -92,9 +92,9 @@ echo "The errors middleware is working" > errorPage/html/custom.html
 
 Now the directory is ready, we can add the Nginx container.
 
-Below is the minimum config to deploy the Nginx container. For comparison, see a more [complete configuration](https://github.com/mpdcampbell/blog/blob/master/docker-compose-blog.yml#L45) with added security middlewares. If you don't bother with a [CSP](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP) for your site, a [previous post](https://www.codeslikeaduck.com/posts/quickcspsetup/) shows bare minimum effort to set one up.
+Below is the minimum config to deploy the Nginx container. For comparison, see a more [complete configuration](https://github.com/mpdcampbell/blog/blob/master/docker-compose-blog.yml) with added security middlewares. If you don't bother with a [CSP](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP) for your site, a [previous post](https://www.codeslikeaduck.com/posts/quickcspsetup/) shows the bare minimum effort to set one up.
 
-{{< code language="yml" title="Nginx docker-compose.yml [Bare bones set up]" expand="Show" collapse="Hide" isCollapsed="false" >}}
+{{< code language="yml" title="Nginx docker-compose.yml [Bare-bones set up]" expand="Show" collapse="Hide" isCollapsed="false" >}}
 errorPage:
       container_name: errorPage
       image: nginx
@@ -163,7 +163,7 @@ The simplest option is to define the middleware in the docker-compose.yml as you
  - "traefik.http.middlewares.errorpage-redirect.errors.query=/custom.html" #/{status}.html"
 {{< /code >}}
 
- - First line defines the range of HTTP status codes that the errors middleware (called errorpage-redirect here) will react to. For example if you replaced 400-599 with 404 then only 404 status code responses will get served custom.html and all other errors will be routed through unaffected.
+ - First line defines the range of HTTP status codes that the errors middleware (called errorpage-redirect here) will react to. For example, if you replaced 400-599 with 404 then only 404 status code responses will get served custom.html and all other errors will be routed through unaffected.
  - Second line is the name of the service the errors middleware should send the custom GET request to, no need to change this.
  - Third line defines what query will be sent to the errorPage container. Here you can use the {status} variable, where status will be replaced by whatever error status code was received. With this, you could serve different error pages for every status code if you wanted.
 
@@ -178,22 +178,22 @@ With that added, now when you rebuild your docker-compose.yml the custom error p
 __Congratulations!__ Now just replace custom.html with your personalised error page and jobs done. However, you should give some consideration when designing the error page...
 
 ## Be careful of relative paths
-If your error page is self-contained within a single html file, for example this [space themed 404 page](https://github.com/mpdcampbell/blog/tree/master/errorPage/html/space), then there are no issues. But if the html, css and javascript are organised in separate files, for example this [duck themed 404 page](https://github.com/mpdcampbell/blog/tree/master/errorPage/html/duck), any files referenced by relative paths won't load successfully. At least not if if they are hosted with the error page service.
+If your error page is self-contained within a single HTML file, for example this [space themed 404 page](https://github.com/mpdcampbell/blog/tree/master/errorPage/html/space), then there are no issues. But if the HTML, CSS and JavaScript are organised in separate files, for example this [duck themed 404 page](https://github.com/mpdcampbell/blog/tree/master/errorPage/html/duck), any files referenced by relative paths won't load successfully. At least, not if they are hosted with the error page service.
 
 #### Why be careful?
 
-This is easiest explained with an example. Following the flow diagram above, if a user requests a page that doesn't exist, https://codeslikeaduck.com/notexist, Traefik routes the request to the service hosting codeslikeaduck.com, the service responds with status 404, the errors middleware will  then intercept and query the errorPage service, which will successfully return custom.html. The users browser then runs through custom.html until it reaches the line:
+This is easiest explained with an example. Following the flow diagram above, if a user requests a page that doesn't exist, https://codeslikeaduck.com/notexist, Traefik routes the request to the service hosting codeslikeaduck.com, the service responds with status 404, the errors middleware will then intercept and query the errorPage service, which will successfully return custom.html. The user's browser then runs through custom.html until it reaches the line:
 
 ```<link rel="stylesheet" href="css/app.css" type="text/css"/>"```
 
-The browser will then request codeslikeaduck.com/css/app.css, which will get routed by Traefik to the service hosting codeslikeaduck.com, which will respond 404, which will get intercepted by the errors middleware and the server will respond with custom.html. This wont match the expected content-type and the browser will return an error.
+The browser will then request codeslikeaduck.com/css/app.css, which will get routed by Traefik to the service hosting codeslikeaduck.com, which will respond 404, which will get intercepted by the errors middleware and the server will respond with custom.html. This won't match the expected content-type and the browser will return an error.
 
-You could solve this by locally storing the css, js and other assets for the error page in the original service volume. But that seems messy and confusing as the html would be in a separate service volume. You could also use [regex and path rules](https://doc.traefik.io/traefik/routing/routers/) to be more precise about what queries are routed where, but that feels overly complicated and could lead to accidental routing of valid asset queries away from the original service. Instead of those options, I recommend exposing the assets to the web so that you can replace all relative paths with a URL.  
+You could solve this by locally storing the css, js and other assets for the error page in the original service volume. But that seems messy and confusing as the HTML would be in a separate service volume. You could also use [regex and path rules](https://doc.traefik.io/traefik/routing/routers/) to be more precise about what queries are routed where, but that feels overly complicated and could lead to accidental routing of valid asset queries away from the original service. Instead of those options, I recommend exposing the assets to the web so that you can replace all relative paths with a URL.  
 
 
 ---
 
-_Expose the error service on a subdomain so you can replace relative paths with URLs_
+_Expose the error service on a subdomain, so you can replace relative paths with URLs_
 
 ---
 

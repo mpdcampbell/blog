@@ -11,7 +11,7 @@ description = "tl;dr: CSP is a HTTP header that makes your website more secure b
 
 ## The CSP Problem
 
-CSPs can seem overly complex on first glance as they allow granular control over many different resource types (images, frames, fonts, scripts, workers e.t.c) and for each you can set an allowed source group (self, none), or from specific domains / domain paths. And they even support using cryptographic nonces and hashes to securely signify specific scripts which can be loaded. So it can quickly snowball, especially for more complex websites if you wanted complete control with every individual resource loading from only sources defined in the CSP. But we aren't aiming for perfect here, that's time-consuming, we are aiming for pretty good. 
+CSPs can seem overly complex at first glance as they allow granular control over many different resource types (images, frames, fonts, scripts, workers e.t.c) and for each you can set an allowed source group (self, none), or from specific domains / domain paths. And they even support using cryptographic nonces and hashes to securely signify specific scripts which can be loaded. So it can quickly snowball, especially for more complex websites if you wanted complete control with every individual resource loading from only sources defined in the CSP. But we aren't aiming for perfect here, that's time-consuming, we are aiming for pretty good. 
 
 ---
 

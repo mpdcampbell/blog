@@ -44,7 +44,7 @@ The [container](https://github.com/mpdcampbell/traefik-geo-ipwhitelist/blob/main
 2. MaxMind maintains a database of geolocation IPs called [GeoLite2](https://dev.maxmind.com/geoip/geolite2-free-geolocation-data), which you can download with a free user account.
 
 **Short version**  
-The script creates a yml file defining the IPWhitelist middleware, downloads and saves a local copy of the GeoLite2 database, extracts IPs which correspond to locations, and appends them to the middleware file. Then if you apply the IPWhitelist middleware to a service router in Traefik, HTTP requests will only be passed to the service if they originate from an IP in the allowed list. Also a cron job keeps the allowed IP list up to date.
+The script creates a yml file defining the IPWhitelist middleware, downloads and saves a local copy of the GeoLite2 database, extracts IPs which correspond to locations, and appends them to the middleware file. Then, if you apply the IPWhitelist middleware to a service router in Traefik, HTTP requests will only be passed to the service if they originate from an IP in the allowed list. Also, a cron job keeps the allowed IP list up to date.
 
 **Long version**  
 The script first checks what country or sublocation variables have been defined. MaxMind maintains separate GeoIP databases for countries and locations smaller than countries (which they call their City database even though it includes states, towns, counties...) and the script only downloads both databases if it needs to. 
@@ -59,7 +59,7 @@ By default, the container adds a cron job to re-run the script at 6 AM UTC on We
 I recommend visiting the [github page](https://github.com/mpdcampbell/traefik-geo-ipwhitelist) to see details on all available environment variables, both mandatory and optional, along with an explanation of how the _larger-region_:_location_ search syntax matches locations. But for a quick start:  
 
 - Make a free [MaxMind account](https://www.maxmind.com/en/geolite2/signup) to get a licence key.  
-- Download [docker-compose.example.yml](https://github.com/mpdcampbell/traefik-geo-ipwhitelist/blob/main/docker-compose.example.yml) and add the lines to your traefik config as instructed.  
+- Download [docker-compose.example.yml](https://github.com/mpdcampbell/traefik-geo-ipwhitelist/blob/main/docker-compose.example.yml) and add the lines to your Traefik config as instructed.  
 - Replace the example file paths and licence key in the example yml.  
 - Replace the location variables: countries go in COUNTRY_CODES, locations smaller than countries go in SUB_CODES.  
 - Start up the container with the below command
