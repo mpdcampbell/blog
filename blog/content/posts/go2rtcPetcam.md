@@ -125,7 +125,7 @@ docker logs -tf go2rtc
 Ok, so my whole spiel was I promised a straightforward link to your camera feeds, and you've noticed the default go2rtc homepage is a distinctly video-less menu screen.
 
 {{< collapsable-box contentType="Screenshot" title="Go2rtc web UI" expand="Show" collapse="Hide" isCollapsed="false" >}}
-<img src="/img/posts/go2rtcPetCam/go2rtcMenu.png" alt="Screenshot of go2rtc menu" loading="lazy"> 
+<a href="/img/posts/go2rtcPetCam/go2rtcMenu.png"><img src="/img/posts/go2rtcPetCam/go2rtcMenu.png" alt="Screenshot of go2rtc menu" loading="lazy"></a>
 {{< /collapsable-box >}}
 
 If you check the boxes beside your camera feeds and then click on stream, it will open a new page which is just your two video streams playing. This is the simple, mobile friendly page we have been looking for. As shown in the example screenshot below, the feeds automatically scale to the screen and you can tap/click on any video feed to get pause, volume, and full screen controls. Note, rather than show my own cameras for the example screenshot, I pointed go2rtc at two clips from [Big Buck Bunny](https://peach.blender.org/about/).
@@ -133,7 +133,7 @@ If you check the boxes beside your camera feeds and then click on stream, it wil
 The URL for this page doesn't change, so you can save this as a shortcut on your computer/phone home screen and the job is done! You have a one click solution to watch your pet when away.
 
 {{< collapsable-box contentType="Screenshot" title="Go2rtc camera feeds on mobile" expand="Show" collapse="Hide" isCollapsed="false" >}}
-<img src="/img/posts/go2rtcPetCam/go2rtcVideoFeeds.png" alt="Screenshot of go2rtc camera feeds on mobile" loading="lazy"> 
+<a href="/img/posts/go2rtcPetCam/go2rtcVideoFeeds.png"><img src="/img/posts/go2rtcPetCam/go2rtcVideoFeeds.png" alt="Screenshot of go2rtc camera feeds on mobile" loading="lazy"></a>
 {{< /collapsable-box >}}
 
 ## Use reverse proxy to set homepage to the camera feed

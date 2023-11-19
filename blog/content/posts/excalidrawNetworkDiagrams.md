@@ -29,14 +29,14 @@ This is where Excalidraw comes in. It's browser based whiteboard tool. It draws 
 Here is a network diagram I made for the services I host. 
 
 {{< collapsable-box contentType="Network Diagram" title="My hosted services" expand="Show" collapse="Hide" isCollapsed="false" >}}
-<img src="/img/posts/excalidrawDiagrams/selfhostedServiceNetwork.png" alt="Excalidraw Diagram of Docker services" loading="lazy"> 
+<a href="/img/posts/excalidrawDiagrams/selfhostedServiceNetwork.png"><img src="/img/posts/excalidrawDiagrams/selfhostedServiceNetwork.png" alt="Excalidraw Diagram of Docker services" loading="lazy"></a>
 {{< /collapsable-box >}}
 
 ### How to use Excalidraw
 There's a free public instance at [excalidraw.com](https://excalidraw.com). It loads directly into a blank whiteboard (see screenshot below), and a little purple shield reassures you that everything is end-to-end encrypted so the Excalidraw servers can't see your diagrams. 
 
 {{< collapsable-box contentType="Screenshot" title="Excalidraw whiteboard" expand="Show" collapse="Hide" isCollapsed="false" >}}
-<img src="/img/posts/excalidrawDiagrams/excalidrawWhiteboard.png" alt="Screenshot of the Excalidraw UI" loading="lazy"> 
+<a href="/img/posts/excalidrawDiagrams/excalidrawWhiteboard.png"><img src="/img/posts/excalidrawDiagrams/excalidrawWhiteboard.png" alt="Screenshot of the Excalidraw UI" loading="lazy"></a>
 {{< /collapsable-box >}}
 
 But why use their convenient, free and encrypted instance when you can [host your own](https://xkcd.com/456/). 
