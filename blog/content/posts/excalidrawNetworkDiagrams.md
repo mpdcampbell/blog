@@ -1,5 +1,5 @@
 +++
-title = "Make network diagrams less boring with Excalidraw"
+title = "Better network diagrams with Excalidraw"
 date = "2023-11-17"
 keywords = ["excalidraw", "network diagram", "self-host"]
 description = "tl;dr: Network diagrams are often monotonous webs, [Excalidraw](https://github.com/excalidraw/excalidraw) uses a sketchy hand-drawn style to make your information dump more visually engaging. This post shows example diagrams and how to host your own Excalidraw instance." 
