@@ -2,10 +2,10 @@
 title = "Automatically update Dockerfile, build, and push"
 date = "2024-01-08"
 keywords = "Dockerfile GitHub workflow update"
-description = "tl;dr: If you maintain a Docker image on GitHub, this [workflow](https://github.com/mpdcampbell/traefik-geoip-filter/tree/main/.github) will automatically update your Dockerfile when the base image updates, update the repo tag, build a new image and push a version tagged build to Docker Hub."
+description = "tl;dr: If you maintain a Docker image on GitHub, this [workflow](https://github.com/mpdcampbell/traefik-geoip-filter/tree/main/.github) will automatically update your Dockerfile when the base image updates, increment the version tag, build a new image and push a tagged build to Docker Hub."
 +++
 
-> tl;dr: If you maintain a Docker image on GitHub, this [workflow](https://github.com/mpdcampbell/traefik-geoip-filter/tree/main/.github) will automatically update your Dockerfile when the base image updates, update the repo tag, build a new image and push a version tagged build to Docker Hub.
+> tl;dr: If you maintain a Docker image on GitHub, this [workflow](https://github.com/mpdcampbell/traefik-geoip-filter/tree/main/.github) will automatically update your Dockerfile when the base image updates, increment the version tag, build a new image and push a tagged build to Docker Hub.
 
 ## Contents
 - [How it works](#how-it-works)
